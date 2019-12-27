@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Project1</string>
     <string name="tab_text_1">Address</string>
-    <string name="tab_text_2">Gallary</string>
+    <string name="tab_text_2">Gallery</string>
     <string name="tab_text_3">\?</string>
     <string name="enter_name">Name</string>
     <string name="enter_addr">Address</string>

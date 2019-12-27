@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.project1.Addr_Profile
 import com.example.project1.AddressAdapter
 import com.example.project1.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_address.*
 
 /**
@@ -34,10 +36,6 @@ class AddressFragment : Fragment() {
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java).apply {
             setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
         }
-
-        //setContentView(savedInstanceState)
-
-
     }
 
     override fun onStart(){
