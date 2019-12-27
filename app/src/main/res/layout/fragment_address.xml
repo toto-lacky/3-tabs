@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/input_layout"
@@ -50,39 +50,14 @@
 
     </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/addressView"
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="630dp">
-
-        <LinearLayout
-            android:id="@+id/addr_elem"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="4dp"
-            android:paddingRight="4dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/address_block_height"
-                android:layout_weight="0.4"
-                android:text="@string/default_name"></TextView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/address_block_height"
-                android:layout_weight="0.4"
-                android:text="@string/default_address"></TextView>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/address_block_height"
-                android:layout_weight="0.2"
-                android:text="@string/random" />
-
-        </LinearLayout>
-
-    </ScrollView>
+        android:layout_height="match_parent"
+        android:id="@+id/mRecyclerView"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp">
+    </androidx.recyclerview.widget.RecyclerView>
 
 </LinearLayout>
