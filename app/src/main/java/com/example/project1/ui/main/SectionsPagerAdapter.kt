@@ -24,6 +24,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
         // Return a PlaceholderFragment (defined as a static inner class below).
         return when(position) {
             0       ->  AddressFragment.newInstance(position + 1)
+            1       ->  GalleryFragment.newInstance(position + 1)
             else    ->  PlaceholderFragment.newInstance(position + 1)
         }
     }
