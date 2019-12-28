@@ -1,6 +1,9 @@
 package com.example.project1_java.ui.main
 
+import android.Manifest
+import android.content.Intent
 import android.database.Cursor
+import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
@@ -11,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.project1_java.Addr_Profile
 import com.example.project1_java.AddressAdapter
+import com.example.project1_java.MainActivity
 import com.example.project1_java.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -49,7 +53,15 @@ class AddressFragment : Fragment() {
     override fun onStart(){
         super.onStart()
         addrList = getContactList()
-        val mAdapter = AddressAdapter(requireContext(), addrList)
+        val mAdapter = AddressAdapter(requireContext(), addrList) { prof ->
+            val callIntent : Intent = Intent(Intent.ACTION_CALL)
+            callIntent.setData(Uri.parse("tel:${prof.addr}"))
+            MainActivity.setPermission(requireContext(), Manifest.permission.CALL_PHONE)
+            startActivity(callIntent)
+            Log.d("phone number","${prof.addr}")
+            //Toast.makeText(requireContext(),"사람의 이름은 ${prof.name} 이며, 번호는 ${prof.addr}이다.", Toast.LENGTH_SHORT).show()
+        }
+
         mRecyclerView.adapter = mAdapter
 
         val lm = LinearLayoutManager(requireContext())
@@ -62,13 +74,13 @@ class AddressFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_address, container, false)
-
+/*
         val fab: FloatingActionButton = root.findViewById(R.id.fab)
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
-        }
+        }*/
         return root
     }
 

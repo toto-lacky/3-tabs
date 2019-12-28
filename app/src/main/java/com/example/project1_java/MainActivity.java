@@ -1,6 +1,8 @@
 package com.example.project1_java;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
@@ -35,13 +37,13 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
-        setPermission(Manifest.permission.READ_CONTACTS);
-        setPermission(Manifest.permission.CALL_PHONE);
+        setPermission(this, Manifest.permission.READ_CONTACTS);
+        setPermission(this, Manifest.permission.CALL_PHONE);
     }
 
     /* 권한 확인 및 요청 함수 */
-    void setPermission(String permission){
-        if(ContextCompat.checkSelfPermission(this, permission) ==
+    public static void setPermission(Context context, String permission){
+        if(ContextCompat.checkSelfPermission(context, permission) ==
                 PackageManager.PERMISSION_GRANTED) {
             // 권한이 있을 때 알림 띄우기
             //Toast.makeText(this, "Permission Set", Toast.LENGTH_SHORT).show();
@@ -49,11 +51,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // 권한이 없을 때 권한 요청하기
             String[] permissions = {permission};
-            ActivityCompat.requestPermissions(this, permissions,0);
+            ActivityCompat.requestPermissions((Activity) context, permissions,0);
         }
 
         // 권한을 받을 때까지 기다리기
-        while(ContextCompat.checkSelfPermission(this, permission) !=
+        while(ContextCompat.checkSelfPermission(context, permission) !=
                 PackageManager.PERMISSION_GRANTED){}
     }
 }

@@ -15,13 +15,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.layout_address_block.view.*
 import java.io.InputStream
 
-class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?>?) :
+class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?>?, val itemClick: (Addr_Profile) -> Unit) :
         RecyclerView.Adapter<AddressAdapter.Holder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
         val view = LayoutInflater.from(context).inflate(R.layout.layout_address_block, parent, false)
-        return Holder(view)
+        return Holder(view, itemClick)
     }
 
     override fun getItemCount(): Int {
@@ -31,29 +32,33 @@ class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder?.bind(addrList?.get(position), context)
+        val listElem : Addr_Profile? = addrList?.get(position)
+        if(listElem != null)
+            holder?.bind(listElem, context)
     }
 
-    inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class Holder(itemView: View, itemClick: (Addr_Profile) -> Unit) : RecyclerView.ViewHolder(itemView) {
         val Photo = itemView?.findViewById<ImageView>(R.id.elem_icon)
         val Name = itemView?.findViewById<TextView>(R.id.elem_name)
         val Addr = itemView?.findViewById<TextView>(R.id.elem_addr)
 
-        fun bind (prof: Addr_Profile?, context: Context) {
+        fun bind (prof: Addr_Profile, context: Context) {
             /* 이미지의 id를 찾고,
-            이미지가 없는 경우 안드로이드 기본 아이콘을 표시한다.*/
-            if (prof?.photoid != R.drawable.def_icon.toLong() && prof?.photoid != null) {
+            이미지가 없는 경우 기본 아이콘을 표시한다.*/
+            if (prof.photoid != 0.toLong()) {
                 val photoid = prof.photoid
                 val personid = prof.personId
                 Photo?.setImageBitmap(loadContactPhoto(context.contentResolver, personid, photoid))
-                Log.d("Called Image","personid: "+personid+" photoid: "+photoid)
+                Log.d("Called Image","personid: "+personid+" photoid: "+photoid+" name: ${prof.name}")
                 //Photo?.setImageResource(resourceId.toInt())
             } else {
                 Photo?.setImageResource(R.drawable.def_icon)
             }
             /* 나머지 TextView와 String 데이터를 연결한다. */
-            Name?.text = prof?.name
-            Addr?.text = prof?.addr
+            Name?.text = prof.name
+            Addr?.text = prof.addr
+
+            itemView.call_icon.setOnClickListener{itemClick(prof)}
         }
     }
 
