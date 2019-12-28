@@ -15,7 +15,6 @@ import com.example.project1.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_address.*
-//import java.util.*
 
 /**
  * A placeholder fragment containing a simple view.
@@ -25,12 +24,6 @@ class AddressFragment : Fragment() {
     private lateinit var pageViewModel: PageViewModel
 
     var addrList : ArrayList<Addr_Profile?>? = ArrayList()
-        /*arrayListOf<Addr_Profile>(
-        Addr_Profile(R.drawable.def_icon,"hihi","ieeeeeng"),
-        Addr_Profile(R.drawable.def_icon,"yo","aaaaa"),
-        Addr_Profile(R.drawable.def_icon,"heee","dfsadag"),
-        Addr_Profile(R.drawable.def_icon,"hohoho","madcamp")
-    )*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +32,8 @@ class AddressFragment : Fragment() {
         }
     }
 
+    /* 기기의 연락처 데이터를 불러와서 AddressAdapter에 연결
+    *  onCreateView 이후에 실행하기 위해 onStrat로 옮겨옴*/
     override fun onStart(){
         super.onStart()
         addrList = getContactList()
@@ -86,6 +81,7 @@ class AddressFragment : Fragment() {
         }
     }
 
+    /* 기기로부터 연락처 목록을 가져오는 메소드 */
     fun getContactList(): ArrayList<Addr_Profile?>? {
         val uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
         val projection = arrayOf(
