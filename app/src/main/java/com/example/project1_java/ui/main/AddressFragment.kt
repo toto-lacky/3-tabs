@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.project1_java.Addr_Profile
@@ -112,19 +111,25 @@ class AddressFragment : Fragment() {
             LinkedHashSet<Addr_Profile>()
         if (cursor?.moveToFirst() == true) {
             do {
+                val name = cursor.getString(0)
                 val photo_id = cursor.getLong(2)
                 val addr = cursor.getString(1)
+                val person_id = cursor.getLong(3)
                 val newProfile =
-                    Addr_Profile(R.drawable.def_icon, cursor.getString(1), cursor.getString(0))
-                    //Addr_Profile(photo_id.toInt(), cursor.getString(1), cursor.getString(0))
+                    //Addr_Profile(R.drawable.def_icon.toLong(), person_id, addr, name)
+                    Addr_Profile(photo_id, person_id, addr, name)
                 hashlist.add(newProfile)
-                Log.d("dalfkj", "ldakfj" + cursor.count);
+                Log.d("dalfkj", "ldakfj" + cursor.count)
             } while (cursor.moveToNext() == true)
         }
         val contactItems: ArrayList<Addr_Profile?> = ArrayList(hashlist)
         for (i in contactItems.indices) {
             contactItems[i]?.id = i
         }
+        cursor?.close()
         return contactItems
     }
+
+
+
 }
