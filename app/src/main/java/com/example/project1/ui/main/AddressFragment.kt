@@ -53,6 +53,13 @@ class AddressFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_address, container, false)
+
+        val fab: FloatingActionButton = root.findViewById(R.id.fab)
+
+        fab.setOnClickListener { view ->
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }
         return root
     }
 
