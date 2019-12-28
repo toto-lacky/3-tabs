@@ -3,11 +3,12 @@ package com.example.project1_java.ui.main
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.project1_java.Addr_Profile
 import com.example.project1_java.AddressAdapter
@@ -19,16 +20,20 @@ import kotlinx.android.synthetic.main.fragment_address.*
 /**
  * A placeholder fragment containing a simple view.
  */
+
+val DEBUG = true
+
 class AddressFragment : Fragment() {
 
     //private lateinit var pageViewModel: PageViewModel
 
-    var addrList: ArrayList<Addr_Profile?>? = arrayListOf<Addr_Profile?>(
+    var addrList: ArrayList<Addr_Profile?>? = ArrayList()
+    /*= arrayListOf<Addr_Profile?>(
         Addr_Profile(R.drawable.def_icon,"hihi","ieeeeeng"),
         Addr_Profile(R.drawable.def_icon,"yo","aaaaa"),
         Addr_Profile(R.drawable.def_icon,"heee","dfsadag"),
         Addr_Profile(R.drawable.def_icon,"hohoho","madcamp")
-    )
+    )*/
 
     //var addrList : ArrayList<Addr_Profile?>? = ArrayList()
 
@@ -41,9 +46,10 @@ class AddressFragment : Fragment() {
 
     /* 기기의 연락처 데이터를 불러와서 AddressAdapter에 연결
     *  onCreateView 이후에 실행하기 위해 onStrat로 옮겨옴*/
+    @ExperimentalStdlibApi
     override fun onStart(){
         super.onStart()
-        //addrList = getContactList()
+        addrList = getContactList()
         val mAdapter = AddressAdapter(requireContext(), addrList)
         mRecyclerView.adapter = mAdapter
 
@@ -89,6 +95,7 @@ class AddressFragment : Fragment() {
     }
 
     /* 기기로부터 연락처 목록을 가져오는 메소드 */
+    @ExperimentalStdlibApi
     fun getContactList(): ArrayList<Addr_Profile?>? {
         val uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
         val projection = arrayOf(
@@ -100,20 +107,19 @@ class AddressFragment : Fragment() {
         val selectionArgs: Array<String>? = null
         val sortOrder = (ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
                 + " COLLATE LOCALIZED ASC")
-        val cursor: Cursor? = requireContext().contentResolver.query(
-            uri, projection, null,
-            selectionArgs, sortOrder
-        )
+        val cursor: Cursor? = requireContext().contentResolver.query(uri, projection, null, selectionArgs, sortOrder)
         val hashlist =
             LinkedHashSet<Addr_Profile>()
         if (cursor?.moveToFirst() == true) {
             do {
                 val photo_id = cursor.getLong(2)
+                val addr = cursor.getString(1)
                 val newProfile =
-                    //Addr_Profile(photo_id.toInt(), cursor.getString(1), cursor.getString(0))
                     Addr_Profile(R.drawable.def_icon, cursor.getString(1), cursor.getString(0))
+                    //Addr_Profile(photo_id.toInt(), cursor.getString(1), cursor.getString(0))
                 hashlist.add(newProfile)
-            } while (cursor.moveToNext())
+                Log.d("dalfkj", "ldakfj" + cursor.count);
+            } while (cursor.moveToNext() == true)
         }
         val contactItems: ArrayList<Addr_Profile?> = ArrayList(hashlist)
         for (i in contactItems.indices) {
