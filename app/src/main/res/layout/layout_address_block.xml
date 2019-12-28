@@ -25,6 +25,8 @@
         android:src="@drawable/circle_mask"
         android:layout_marginEnd="6dip"/>
 
+
+
     <TextView
         android:id="@+id/elem_addr"
         android:layout_width="fill_parent"
@@ -32,12 +34,14 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@id/circle_mask"
+        android:layout_toLeftOf="@id/call_icon"
         android:ellipsize="marquee"
         android:text="@string/default_address"
         android:textSize="12sp"
         android:singleLine="true"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@id/elem_icon" />
+        android:layout_toEndOf="@id/elem_icon"
+        android:layout_toStartOf="@id/call_icon" />
 
     <TextView
         android:id="@+id/elem_name"
@@ -48,10 +52,26 @@
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
         android:layout_toRightOf="@id/circle_mask"
+        android:layout_toLeftOf="@id/call_icon"
         android:gravity="center_vertical"
         android:text="@string/default_name"
         android:textSize="20sp"
         android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@id/elem_icon" />
+        android:layout_toEndOf="@id/elem_icon"
+        android:layout_toStartOf="@id/call_icon" />
+
+    <ImageView
+        android:id="@+id/call_icon"
+        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="0dip"
+        android:foregroundGravity="center"
+        android:contentDescription="TODO"
+        android:src="@drawable/call_icon"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="6dip" />
+
+
 
 </RelativeLayout>

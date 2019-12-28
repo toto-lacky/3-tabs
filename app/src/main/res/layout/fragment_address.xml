@@ -5,7 +5,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical"
     android:name="android.permission.READ_CONTACTS">
-
+<!--
     <LinearLayout
         android:id="@+id/input_layout"
         android:layout_width="fill_parent"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:text="@string/add_address_text"/>
 
-    </LinearLayout>
+    </LinearLayout>-->
 
     <RelativeLayout
         android:layout_width="match_parent"
