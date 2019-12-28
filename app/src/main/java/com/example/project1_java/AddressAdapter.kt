@@ -47,6 +47,7 @@ class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?
                 val photoid = prof.photoid
                 val personid = prof.personId
                 Photo?.setImageBitmap(loadContactPhoto(context.contentResolver, personid, photoid))
+                Log.d("Called Image","personid: "+personid+" photoid: "+photoid)
                 //Photo?.setImageResource(resourceId.toInt())
             } else {
                 Photo?.setImageResource(R.drawable.def_icon)

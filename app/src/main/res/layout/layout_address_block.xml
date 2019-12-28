@@ -2,29 +2,25 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="120dp"
-    android:padding="6dip" >
+    android:layout_height="70dp"
+    android:padding="5dip" >
 
     <ImageView
         android:id="@+id/elem_icon"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
+        android:layout_width="@dimen/profile_image"
+        android:layout_height="@dimen/profile_image"
         android:layout_marginTop="0dp"
+        android:layout_marginEnd="6dip"
         android:layout_marginRight="10dip"
         android:contentDescription="TODO"
-        android:src="@drawable/def_icon"
-        android:layout_marginEnd="6dip"/>
+        android:src="@drawable/allblack_icon" />
 
     <ImageView
         android:id="@+id/circle_mask"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentBottom="true"
+        android:layout_height="@dimen/profile_image"
+        android:layout_width="@dimen/profile_image"
         android:layout_marginTop="0dp"
-        android:layout_marginRight="10dip"
+        android:layout_marginRight="0dip"
         android:contentDescription="TODO"
         android:src="@drawable/circle_mask"
         android:layout_marginEnd="6dip"/>
@@ -35,7 +31,7 @@
         android:layout_height="26dip"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/elem_icon"
+        android:layout_toRightOf="@id/circle_mask"
         android:ellipsize="marquee"
         android:text="@string/default_address"
         android:textSize="12sp"
@@ -51,7 +47,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_alignWithParentIfMissing="true"
-        android:layout_toRightOf="@id/elem_icon"
+        android:layout_toRightOf="@id/circle_mask"
         android:gravity="center_vertical"
         android:text="@string/default_name"
         android:textSize="20sp"
