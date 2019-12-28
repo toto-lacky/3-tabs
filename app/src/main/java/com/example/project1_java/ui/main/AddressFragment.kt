@@ -16,36 +16,15 @@ import com.example.project1_java.Addr_Profile
 import com.example.project1_java.AddressAdapter
 import com.example.project1_java.MainActivity
 import com.example.project1_java.R
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_address.*
 
 /**
- * A placeholder fragment containing a simple view.
+ * A fragment containing a view for contacts.
  */
-
-val DEBUG = true
 
 class AddressFragment : Fragment() {
 
-    //private lateinit var pageViewModel: PageViewModel
-
     var addrList: ArrayList<Addr_Profile?>? = ArrayList()
-    /*= arrayListOf<Addr_Profile?>(
-        Addr_Profile(R.drawable.def_icon,"hihi","ieeeeeng"),
-        Addr_Profile(R.drawable.def_icon,"yo","aaaaa"),
-        Addr_Profile(R.drawable.def_icon,"heee","dfsadag"),
-        Addr_Profile(R.drawable.def_icon,"hohoho","madcamp")
-    )*/
-
-    //var addrList : ArrayList<Addr_Profile?>? = ArrayList()
-
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel::class.java).apply {
-            setIndex(arguments?.getInt(ARG_SECTION_NUMBER) ?: 1)
-        }
-    }*/
 
     /* 기기의 연락처 데이터를 불러와서 AddressAdapter에 연결
     *  onCreateView 이후에 실행하기 위해 onStrat로 옮겨옴*/
@@ -53,13 +32,9 @@ class AddressFragment : Fragment() {
     override fun onStart(){
         super.onStart()
         addrList = getContactList()
+        // 전화를 거는 부분
         val mAdapter = AddressAdapter(requireContext(), addrList) { prof ->
-            val callIntent : Intent = Intent(Intent.ACTION_CALL)
-            callIntent.setData(Uri.parse("tel:${prof.addr}"))
-            MainActivity.setPermission(requireContext(), Manifest.permission.CALL_PHONE)
-            startActivity(callIntent)
-            Log.d("phone number","${prof.addr}")
-            //Toast.makeText(requireContext(),"사람의 이름은 ${prof.name} 이며, 번호는 ${prof.addr}이다.", Toast.LENGTH_SHORT).show()
+            call(prof)
         }
 
         mRecyclerView.adapter = mAdapter
@@ -74,13 +49,7 @@ class AddressFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_address, container, false)
-/*
-        val fab: FloatingActionButton = root.findViewById(R.id.fab)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }*/
         return root
     }
 
@@ -127,9 +96,7 @@ class AddressFragment : Fragment() {
                 val photo_id = cursor.getLong(2)
                 val addr = cursor.getString(1)
                 val person_id = cursor.getLong(3)
-                val newProfile =
-                    //Addr_Profile(R.drawable.def_icon.toLong(), person_id, addr, name)
-                    Addr_Profile(photo_id, person_id, addr, name)
+                val newProfile = Addr_Profile(photo_id, person_id, addr, name)
                 hashlist.add(newProfile)
                 Log.d("dalfkj", "ldakfj" + cursor.count)
             } while (cursor.moveToNext() == true)
@@ -142,6 +109,17 @@ class AddressFragment : Fragment() {
         return contactItems
     }
 
+    /* prof에서 읽은 번호로 전화를 거는 함수 */
+    fun call(prof: Addr_Profile){
+        val callIntent : Intent = Intent(Intent.ACTION_CALL)
+        callIntent.setData(Uri.parse("tel:${prof.addr}"))
+        MainActivity.setPermission(requireContext(), Manifest.permission.CALL_PHONE)
+        startActivity(callIntent)
+        Log.d("phone number","${prof.addr}")
+    }
 
+    /* 입력받은 데이터로 새 연락처를 만드는 함수 */
+    fun createAddr(name: String, addr: String){
+    }
 
 }

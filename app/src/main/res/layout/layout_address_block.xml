@@ -12,7 +12,6 @@
         android:layout_marginTop="0dp"
         android:layout_marginEnd="6dip"
         android:layout_marginRight="10dip"
-        android:contentDescription="TODO"
         android:src="@drawable/allblack_icon" />
 
     <ImageView
@@ -21,7 +20,6 @@
         android:layout_width="@dimen/profile_image"
         android:layout_marginTop="0dp"
         android:layout_marginRight="0dip"
-        android:contentDescription="TODO"
         android:src="@drawable/circle_mask"
         android:layout_marginEnd="6dip"/>
 
@@ -67,10 +65,10 @@
         android:layout_marginTop="5dp"
         android:layout_marginRight="0dip"
         android:foregroundGravity="center"
-        android:contentDescription="TODO"
         android:src="@drawable/call_icon"
         android:layout_alignParentRight="true"
-        android:layout_marginEnd="6dip" />
+        android:layout_marginEnd="6dip"
+        android:layout_alignParentEnd="true" />
 
 
 
