@@ -25,10 +25,10 @@ class AddressFragment : Fragment() {
     private lateinit var pageViewModel: PageViewModel
 
     var addrList = arrayListOf<Addr_Profile>(
-        Addr_Profile("def_icon","hihi","ieeeeeng"),
-        Addr_Profile("def_icon","yo","aaaaa"),
-        Addr_Profile("def_icon","heee","dfsadag"),
-        Addr_Profile("def_icon","hohoho","madcamp")
+        Addr_Profile(R.drawable.def_icon,"hihi","ieeeeeng"),
+        Addr_Profile(R.drawable.def_icon,"yo","aaaaa"),
+        Addr_Profile(R.drawable.def_icon,"heee","dfsadag"),
+        Addr_Profile(R.drawable.def_icon,"hohoho","madcamp")
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {

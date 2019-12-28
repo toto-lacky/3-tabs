@@ -30,13 +30,13 @@ class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile>
         val Addr = itemView?.findViewById<TextView>(R.id.elem_addr)
 
         fun bind (prof: Addr_Profile, context: Context) {
-            /* 이미지의 id를 파일명(String)으로 찾고,
+            /* 이미지의 id를 찾고,
             이미지가 없는 경우 안드로이드 기본 아이콘을 표시한다.*/
-            if (prof.photo != "") {
-                val resourceId = context.resources.getIdentifier(prof.photo, "drawable", context.packageName)
+            if (prof.photo != R.drawable.def_icon) {
+                val resourceId = prof.photo
                 Photo?.setImageResource(resourceId)
             } else {
-                Photo?.setImageResource(R.mipmap.ic_launcher)
+                Photo?.setImageResource(R.drawable.def_icon)
             }
             /* 나머지 TextView와 String 데이터를 연결한다. */
             Name?.text = prof.name
