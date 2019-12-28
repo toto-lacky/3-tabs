@@ -18,11 +18,10 @@ import androidx.recyclerview.widget.RecyclerView
 import java.io.InputStream
 
 class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?>?) :
-            RecyclerView.Adapter<AddressAdapter.Holder>() {
-
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-                val view = LayoutInflater.from(context).inflate(R.layout.layout_address_block, parent, false)
-                return Holder(view)
+        RecyclerView.Adapter<AddressAdapter.Holder>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
+        val view = LayoutInflater.from(context).inflate(R.layout.layout_address_block, parent, false)
+        return Holder(view)
     }
 
     override fun getItemCount(): Int {

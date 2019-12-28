@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,27 +35,25 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) ==
+        setPermission(Manifest.permission.READ_CONTACTS);
+        setPermission(Manifest.permission.CALL_PHONE);
+    }
+
+    /* 권한 확인 및 요청 함수 */
+    void setPermission(String permission){
+        if(ContextCompat.checkSelfPermission(this, permission) ==
                 PackageManager.PERMISSION_GRANTED) {
             // 권한이 있을 때 알림 띄우기
-            Toast.makeText(this, "Contact Permission Set", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Permission Set", Toast.LENGTH_SHORT).show();
+            Log.d("Permission","Permission set");
         } else {
             // 권한이 없을 때 권한 요청하기
-            String[] permissions = {Manifest.permission.READ_CONTACTS};
+            String[] permissions = {permission};
             ActivityCompat.requestPermissions(this, permissions,0);
         }
 
-        while(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) !=
+        // 권한을 받을 때까지 기다리기
+        while(ContextCompat.checkSelfPermission(this, permission) !=
                 PackageManager.PERMISSION_GRANTED){}
-
-        /*FloatingActionButton fab = findViewById(R.id.fab);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
     }
 }
