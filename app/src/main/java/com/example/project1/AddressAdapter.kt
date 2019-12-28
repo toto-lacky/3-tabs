@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile>) :
+class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?>?) :
             RecyclerView.Adapter<AddressAdapter.Holder>() {
 
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
@@ -17,11 +17,13 @@ class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile>
     }
 
     override fun getItemCount(): Int {
+        if(addrList == null)
+            return -1
         return addrList.size
     }
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
-        holder?.bind(addrList[position], context)
+        holder?.bind(addrList?.get(position), context)
     }
 
     inner class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -29,18 +31,18 @@ class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile>
         val Name = itemView?.findViewById<TextView>(R.id.elem_name)
         val Addr = itemView?.findViewById<TextView>(R.id.elem_addr)
 
-        fun bind (prof: Addr_Profile, context: Context) {
+        fun bind (prof: Addr_Profile?, context: Context) {
             /* 이미지의 id를 찾고,
             이미지가 없는 경우 안드로이드 기본 아이콘을 표시한다.*/
-            if (prof.photo != R.drawable.def_icon) {
-                val resourceId = prof.photo
+            if (prof?.photoid != R.drawable.def_icon && prof?.photoid != null) {
+                val resourceId = prof.photoid
                 Photo?.setImageResource(resourceId)
             } else {
                 Photo?.setImageResource(R.drawable.def_icon)
             }
             /* 나머지 TextView와 String 데이터를 연결한다. */
-            Name?.text = prof.name
-            Addr?.text = prof.addr
+            Name?.text = prof?.name
+            Addr?.text = prof?.addr
         }
     }
 }

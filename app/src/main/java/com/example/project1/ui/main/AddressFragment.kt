@@ -1,21 +1,21 @@
 package com.example.project1.ui.main
 
+import android.database.Cursor
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.project1.Addr_Profile
 import com.example.project1.AddressAdapter
 import com.example.project1.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_address.*
+//import java.util.*
 
 /**
  * A placeholder fragment containing a simple view.
@@ -24,12 +24,13 @@ class AddressFragment : Fragment() {
 
     private lateinit var pageViewModel: PageViewModel
 
-    var addrList = arrayListOf<Addr_Profile>(
+    var addrList : ArrayList<Addr_Profile?>? = ArrayList()
+        /*arrayListOf<Addr_Profile>(
         Addr_Profile(R.drawable.def_icon,"hihi","ieeeeeng"),
         Addr_Profile(R.drawable.def_icon,"yo","aaaaa"),
         Addr_Profile(R.drawable.def_icon,"heee","dfsadag"),
         Addr_Profile(R.drawable.def_icon,"hohoho","madcamp")
-    )
+    )*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +41,7 @@ class AddressFragment : Fragment() {
 
     override fun onStart(){
         super.onStart()
+        addrList = getContactList()
         val mAdapter = AddressAdapter(requireContext(), addrList)
         mRecyclerView.adapter = mAdapter
 
@@ -82,5 +84,38 @@ class AddressFragment : Fragment() {
                 }
             }
         }
+    }
+
+    fun getContactList(): ArrayList<Addr_Profile?>? {
+        val uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
+        val projection = arrayOf(
+            ContactsContract.CommonDataKinds.Phone.NUMBER,
+            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+            ContactsContract.Contacts.PHOTO_ID,
+            ContactsContract.Contacts._ID
+        )
+        val selectionArgs: Array<String>? = null
+        val sortOrder = (ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+                + " COLLATE LOCALIZED ASC")
+        val cursor: Cursor? = requireContext().contentResolver.query(
+            uri, projection, null,
+            selectionArgs, sortOrder
+        )
+        val hashlist =
+            LinkedHashSet<Addr_Profile>()
+        if (cursor?.moveToFirst() == true) {
+            do {
+                val photo_id = cursor.getLong(2)
+                val newProfile =
+                    //Addr_Profile(photo_id.toInt(), cursor.getString(1), cursor.getString(0))
+                    Addr_Profile(R.drawable.def_icon, cursor.getString(1), cursor.getString(0))
+                hashlist.add(newProfile)
+            } while (cursor.moveToNext())
+        }
+        val contactItems: ArrayList<Addr_Profile?> = ArrayList(hashlist)
+        for (i in contactItems.indices) {
+            contactItems[i]?.id = i
+        }
+        return contactItems
     }
 }
