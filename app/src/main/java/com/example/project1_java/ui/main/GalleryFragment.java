@@ -1,6 +1,9 @@
 package com.example.project1_java.ui.main;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -12,12 +15,15 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.project1_java.ImageActivity;
 import com.example.project1_java.R;
 
 public class GalleryFragment extends Fragment {
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     private ImageView imageview[] = new ImageView[24];
+    private Uri uris[] = new Uri[24];
+    //private String path[] = new String[]{"default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default"};
 
     public static GalleryFragment newInstance(int index) {
         GalleryFragment fragment = new GalleryFragment();
@@ -37,12 +43,6 @@ public class GalleryFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
-
-        /*
-        GridView gridViewImages = root.findViewById(R.id.gridView);
-        ImageGridAdapter imageGridAdapter = new ImageGridAdapter(getActivity());
-        gridViewImages.setAdapter(imageGridAdapter);
-        */
 
         imageview[0] = root.findViewById(R.id.img1);
         imageview[1] = root.findViewById(R.id.img2);
@@ -94,95 +94,161 @@ public class GalleryFragment extends Fragment {
         imageview[22].setOnClickListener(new ImageClickListener2(22));
         imageview[23].setOnClickListener(new ImageClickListener2(23));
 
+        imageview[0].setOnLongClickListener(new ImageLongClickListener(0));
+        imageview[1].setOnLongClickListener(new ImageLongClickListener(1));
+        imageview[2].setOnLongClickListener(new ImageLongClickListener(2));
+        imageview[3].setOnLongClickListener(new ImageLongClickListener(3));
+        imageview[4].setOnLongClickListener(new ImageLongClickListener(4));
+        imageview[5].setOnLongClickListener(new ImageLongClickListener(5));
+        imageview[6].setOnLongClickListener(new ImageLongClickListener(6));
+        imageview[7].setOnLongClickListener(new ImageLongClickListener(7));
+        imageview[8].setOnLongClickListener(new ImageLongClickListener(8));
+        imageview[9].setOnLongClickListener(new ImageLongClickListener(9));
+        imageview[10].setOnLongClickListener(new ImageLongClickListener(10));
+        imageview[11].setOnLongClickListener(new ImageLongClickListener(11));
+        imageview[12].setOnLongClickListener(new ImageLongClickListener(12));
+        imageview[13].setOnLongClickListener(new ImageLongClickListener(13));
+        imageview[14].setOnLongClickListener(new ImageLongClickListener(14));
+        imageview[15].setOnLongClickListener(new ImageLongClickListener(15));
+        imageview[16].setOnLongClickListener(new ImageLongClickListener(16));
+        imageview[17].setOnLongClickListener(new ImageLongClickListener(17));
+        imageview[18].setOnLongClickListener(new ImageLongClickListener(18));
+        imageview[19].setOnLongClickListener(new ImageLongClickListener(19));
+        imageview[20].setOnLongClickListener(new ImageLongClickListener(20));
+        imageview[21].setOnLongClickListener(new ImageLongClickListener(21));
+        imageview[22].setOnLongClickListener(new ImageLongClickListener(22));
+        imageview[23].setOnLongClickListener(new ImageLongClickListener(23));
+
         return root;
     }
+
     public class ImageClickListener2 implements View.OnClickListener{
         int index;
         public ImageClickListener2(int index){
             this.index = index;
         }
         public void onClick(View v){
+            if(uris[index] == null) return;
+
+            Intent intent = new Intent(getContext(), ImageActivity.class);
+            intent.putExtra("uri",uris[index].toString());
+            startActivity(intent);
+        }
+    }
+
+    public class ImageLongClickListener implements  View.OnLongClickListener{
+
+        int index;
+        public ImageLongClickListener(int index){
+            this.index = index;
+        }
+        public boolean onLongClick(View v){
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
             startActivityForResult(intent, index);
+
+            return true;
         }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (data != null && data.getData() != null){
-            Uri selectedImageUri = data.getData();
             switch (requestCode){
                 case 0:
-                    imageview[0].setImageURI(selectedImageUri);
+                    uris[0] = data.getData();
+                    imageview[0].setImageURI(uris[0]);
                     break;
                 case 1:
-                    imageview[1].setImageURI(selectedImageUri);
+                    uris[1] = data.getData();
+                    imageview[1].setImageURI(uris[1]);
                     break;
                 case 2:
-                    imageview[2].setImageURI(selectedImageUri);
+                    uris[2] = data.getData();
+                    imageview[2].setImageURI(uris[2]);
                     break;
                 case 3:
-                    imageview[3].setImageURI(selectedImageUri);
+                    uris[3] = data.getData();
+                    imageview[3].setImageURI(uris[3]);
                     break;
                 case 4:
-                    imageview[4].setImageURI(selectedImageUri);
+                    uris[4] = data.getData();
+                    imageview[4].setImageURI(uris[4]);
                     break;
                 case 5:
-                    imageview[5].setImageURI(selectedImageUri);
+                    uris[5] = data.getData();
+                    imageview[5].setImageURI(uris[5]);
                     break;
                 case 6:
-                    imageview[6].setImageURI(selectedImageUri);
+                    uris[6] = data.getData();
+                    imageview[6].setImageURI(uris[6]);
                     break;
                 case 7:
-                    imageview[7].setImageURI(selectedImageUri);
+                    uris[7] = data.getData();
+                    imageview[7].setImageURI(uris[7]);
                     break;
                 case 8:
-                    imageview[8].setImageURI(selectedImageUri);
+                    uris[8] = data.getData();
+                    imageview[8].setImageURI(uris[8]);
                     break;
                 case 9:
-                    imageview[9].setImageURI(selectedImageUri);
+                    uris[9] = data.getData();
+                    imageview[9].setImageURI(uris[9]);
                     break;
                 case 10:
-                    imageview[10].setImageURI(selectedImageUri);
+                    uris[10] = data.getData();
+                    imageview[10].setImageURI(uris[10]);
                     break;
                 case 11:
-                    imageview[11].setImageURI(selectedImageUri);
+                    uris[11] = data.getData();
+                    imageview[11].setImageURI(uris[11]);
                     break;
                 case 12:
-                    imageview[12].setImageURI(selectedImageUri);
+                    uris[12] = data.getData();
+                    imageview[12].setImageURI(uris[12]);
                     break;
                 case 13:
-                    imageview[13].setImageURI(selectedImageUri);
+                    uris[13] = data.getData();
+                    imageview[13].setImageURI(uris[13]);
                     break;
                 case 14:
-                    imageview[14].setImageURI(selectedImageUri);
+                    uris[14] = data.getData();
+                    imageview[14].setImageURI(uris[14]);
                     break;
                 case 15:
-                    imageview[15].setImageURI(selectedImageUri);
+                    uris[15] = data.getData();
+                    imageview[15].setImageURI(uris[15]);
                     break;
                 case 16:
-                    imageview[16].setImageURI(selectedImageUri);
+                    uris[16] = data.getData();
+                    imageview[16].setImageURI(uris[16]);
                     break;
                 case 17:
-                    imageview[17].setImageURI(selectedImageUri);
+                    uris[17] = data.getData();
+                    imageview[17].setImageURI(uris[17]);
                     break;
                 case 18:
-                    imageview[18].setImageURI(selectedImageUri);
+                    uris[18] = data.getData();
+                    imageview[18].setImageURI(uris[18]);
                     break;
                 case 19:
-                    imageview[19].setImageURI(selectedImageUri);
+                    uris[19] = data.getData();
+                    imageview[19].setImageURI(uris[19]);
                     break;
                 case 20:
-                    imageview[20].setImageURI(selectedImageUri);
+                    uris[20] = data.getData();
+                    imageview[20].setImageURI(uris[20]);
                     break;
                 case 21:
-                    imageview[20].setImageURI(selectedImageUri);
+                    uris[21] = data.getData();
+                    imageview[21].setImageURI(uris[21]);
                     break;
                 case 22:
-                    imageview[20].setImageURI(selectedImageUri);
+                    uris[22] = data.getData();
+                    imageview[22].setImageURI(uris[22]);
                     break;
                 case 23:
-                    imageview[20].setImageURI(selectedImageUri);
+                    uris[23] = data.getData();
+                    imageview[23].setImageURI(uris[23]);
                     break;
             }
         }
