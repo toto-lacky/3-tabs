@@ -5,25 +5,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
 
 import com.example.project1_java.ui.main.SectionsPagerAdapter;
+import com.google.android.material.tabs.TabLayout;
 
-import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,25 +29,31 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
-        setPermission(this, Manifest.permission.READ_CONTACTS);
-        setPermission(this, Manifest.permission.CALL_PHONE);
+        String[] reqPermissions = {Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE};
+
+        setPermission(this, reqPermissions);
     }
 
     /* 권한 확인 및 요청 함수 */
-    public static void setPermission(Context context, String permission){
-        if(ContextCompat.checkSelfPermission(context, permission) ==
-                PackageManager.PERMISSION_GRANTED) {
-            // 권한이 있을 때 알림 띄우기
-            //Toast.makeText(this, "Permission Set", Toast.LENGTH_SHORT).show();
-            Log.d("Permission","Permission set");
-        } else {
-            // 권한이 없을 때 권한 요청하기
-            String[] permissions = {permission};
-            ActivityCompat.requestPermissions((Activity) context, permissions,0);
+    public static void setPermission(Context context, String[] permissions){
+        // 추가적으로 요청해야 하는 권한들
+        ArrayList<String> ReqPerm = new ArrayList<>();
+
+        /* 현재 권한이 있는지 확인, 없으면 ReqPerm에 추가 */
+        for (String perm : permissions) {
+            if(ContextCompat.checkSelfPermission(context, perm) == PackageManager.PERMISSION_GRANTED)
+                Log.d("Permission","Already have permission: " + perm);
+            else
+                ReqPerm.add(perm);
         }
 
-        // 권한을 받을 때까지 기다리기
-        while(ContextCompat.checkSelfPermission(context, permission) !=
-                PackageManager.PERMISSION_GRANTED){}
+        /* 권한 요청 */
+        if(ReqPerm.size() != 0)
+            ActivityCompat.requestPermissions((Activity) context, ReqPerm.toArray(new String[ReqPerm.size()]),0);
+
+        /* 권한을 받을 때까지 기다리기 */
+        for (String perm : permissions) {
+            while (ContextCompat.checkSelfPermission(context, perm) != PackageManager.PERMISSION_GRANTED) {}
+        }
     }
 }
