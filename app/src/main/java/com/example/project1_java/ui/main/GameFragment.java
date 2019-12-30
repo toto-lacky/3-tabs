@@ -1,17 +1,16 @@
 package com.example.project1_java.ui.main;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.Button;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
+import com.example.project1_java.FixableViewPager;
 import com.example.project1_java.R;
 
 /**
@@ -19,16 +18,17 @@ import com.example.project1_java.R;
  */
 public class GameFragment extends Fragment {
 
-    private static final String ARG_SECTION_NUMBER = "section_number";
+    //private static final String ARG_SECTION_NUMBER = "section_number";
 
     //private PageViewModel pageViewModel;
 
     public static GameFragment newInstance(int index) {
-        GameFragment fragment = new GameFragment();
+        /*GameFragment fragment = new GameFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
-        return fragment;
+        return fragment;*/
+        return new GameFragment();
     }
 /*
     @Override
@@ -47,6 +47,8 @@ public class GameFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_game, container, false);
+
+
         //final TextView textView = root.findViewById(R.id.section_label);
         /*pageViewModel.getText().observe(this, new Observer<String>() {
             @Override
@@ -55,5 +57,27 @@ public class GameFragment extends Fragment {
             }
         });*/
         return root;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        final View view = getView();
+        assert view != null;
+        Button startButton = view.findViewById(R.id.game_start_button);
+        //Log.d("startButton",""+startButton);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FixableViewPager viewPager;
+                try{
+                    viewPager = getActivity().findViewById(R.id.view_pager);
+                    viewPager.setPageFixed(!viewPager.getPageFixed());
+                }
+                catch(Exception e){
+                    Log.d("onStart","Error");
+                }
+            }
+        });
     }
 }
