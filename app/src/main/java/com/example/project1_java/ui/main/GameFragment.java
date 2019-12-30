@@ -9,8 +9,11 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.project1_java.FixableViewPager;
+import com.example.project1_java.MainActivity;
 import com.example.project1_java.R;
 
 /**
@@ -18,45 +21,16 @@ import com.example.project1_java.R;
  */
 public class GameFragment extends Fragment {
 
-    //private static final String ARG_SECTION_NUMBER = "section_number";
-
-    //private PageViewModel pageViewModel;
-
-    public static GameFragment newInstance(int index) {
-        /*GameFragment fragment = new GameFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(ARG_SECTION_NUMBER, index);
-        fragment.setArguments(bundle);
-        return fragment;*/
+    static GameFragment newInstance() {
         return new GameFragment();
     }
-/*
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
-        int index = 1;
-        if (getArguments() != null) {
-            index = getArguments().getInt(ARG_SECTION_NUMBER);
-        }
-        //pageViewModel.setIndex(index);
-    }*/
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_game, container, false);
 
-
-        //final TextView textView = root.findViewById(R.id.section_label);
-        /*pageViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
-        return root;
+        return inflater.inflate(R.layout.fragment_game, container, false);
     }
 
     @Override
@@ -69,6 +43,7 @@ public class GameFragment extends Fragment {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /* Block swipe */
                 FixableViewPager viewPager;
                 try{
                     viewPager = getActivity().findViewById(R.id.view_pager);
@@ -77,6 +52,16 @@ public class GameFragment extends Fragment {
                 catch(Exception e){
                     Log.d("onStart","Error");
                 }
+
+                /* Switch to gamePlayFragment */
+                assert getFragmentManager() != null;
+                FragmentTransaction trans = getFragmentManager().beginTransaction();
+                trans.replace(R.id.game_fragment, new GamePlayFragment());
+                trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                trans.addToBackStack(null);
+
+                trans.commit();
+                //((MainActivity)getActivity()).replaceFragment(GamePlayFragment.newInstance());
             }
         });
     }
