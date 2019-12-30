@@ -6,4 +6,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="profile_image">60dp</dimen>
+    <dimen name="game_board">400dp</dimen>
+    <dimen name="game_block">100dp</dimen>
 </resources>

@@ -9,105 +9,133 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@color/colorPrimaryDark"/>
+            android:src="@color/white"/>
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/game_board"
+            android:layout_height="@dimen/game_board"
             android:layout_centerInParent="true">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/def_icon"
-                android:id="@+id/block1"/>
+                android:layout_width="@dimen/game_block"
+                android:layout_height="@dimen/game_block"
+                android:src="@drawable/block_1"
+                android:id="@+id/block1"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"/>
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/def_icon"
-                android:id="@+id/block2"/>
+                android:layout_width="@dimen/game_block"
+                android:layout_height="@dimen/game_block"
+                android:src="@drawable/block_2"
+                android:id="@+id/block2"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="0dp"/>
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/def_icon"
-                android:id="@+id/block3"/>
+                android:layout_width="@dimen/game_block"
+                android:layout_height="@dimen/game_block"
+                android:src="@drawable/block_3"
+                android:id="@+id/block3"
+                android:layout_marginLeft="200dp"
+                android:layout_marginTop="0dp"/>
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/def_icon"
-                android:id="@+id/block4"/>
+                android:layout_width="@dimen/game_block"
+                android:layout_height="@dimen/game_block"
+                android:src="@drawable/block_4"
+                android:id="@+id/block4"
+                android:layout_marginLeft="300dp"
+                android:layout_marginTop="0dp"/>
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/def_icon"
-                android:id="@+id/block5"/>
+                android:layout_width="@dimen/game_block"
+                android:layout_height="@dimen/game_block"
+                android:src="@drawable/block_5"
+                android:id="@+id/block5"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="100dp"/>
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/def_icon"
-                android:id="@+id/block6"/>
+                android:layout_width="@dimen/game_block"
+                android:layout_height="@dimen/game_block"
+                android:src="@drawable/block_6"
+                android:id="@+id/block6"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="100dp"/>
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/def_icon"
-                android:id="@+id/block7"/>
+                android:layout_width="@dimen/game_block"
+                android:layout_height="@dimen/game_block"
+                android:src="@drawable/block_7"
+                android:id="@+id/block7"
+                android:layout_marginLeft="200dp"
+                android:layout_marginTop="100dp"/>
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/def_icon"
-                android:id="@+id/block8"/>
+                android:layout_width="@dimen/game_block"
+                android:layout_height="@dimen/game_block"
+                android:src="@drawable/block_8"
+                android:id="@+id/block8"
+                android:layout_marginLeft="300dp"
+                android:layout_marginTop="100dp"/>
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/def_icon"
-                android:id="@+id/block9"/>
+                android:layout_width="@dimen/game_block"
+                android:layout_height="@dimen/game_block"
+                android:src="@drawable/block_9"
+                android:id="@+id/block9"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="200dp"/>
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/def_icon"
-                android:id="@+id/block10"/>
+                android:layout_width="@dimen/game_block"
+                android:layout_height="@dimen/game_block"
+                android:src="@drawable/block_10"
+                android:id="@+id/block10"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="200dp"/>
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/def_icon"
-                android:id="@+id/block11"/>
+                android:layout_width="@dimen/game_block"
+                android:layout_height="@dimen/game_block"
+                android:src="@drawable/block_11"
+                android:id="@+id/block11"
+                android:layout_marginLeft="200dp"
+                android:layout_marginTop="200dp"/>
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/def_icon"
-                android:id="@+id/block12"/>
+                android:layout_width="@dimen/game_block"
+                android:layout_height="@dimen/game_block"
+                android:src="@drawable/block_12"
+                android:id="@+id/block12"
+                android:layout_marginLeft="300dp"
+                android:layout_marginTop="200dp"/>
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/def_icon"
-                android:id="@+id/block13"/>
+                android:layout_width="@dimen/game_block"
+                android:layout_height="@dimen/game_block"
+                android:src="@drawable/block_13"
+                android:id="@+id/block13"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="300dp"/>
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/def_icon"
-                android:id="@+id/block14"/>
+                android:layout_width="@dimen/game_block"
+                android:layout_height="@dimen/game_block"
+                android:src="@drawable/block_14"
+                android:id="@+id/block14"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="300dp"/>
 
             <ImageView
                 android:id="@+id/block15"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/def_icon" />
+                android:layout_width="@dimen/game_block"
+                android:layout_height="@dimen/game_block"
+                android:src="@drawable/block_15"
+                android:layout_marginLeft="200dp"
+                android:layout_marginTop="300dp"/>
 
         </RelativeLayout>
-
-
     </RelativeLayout>
 </FrameLayout>
