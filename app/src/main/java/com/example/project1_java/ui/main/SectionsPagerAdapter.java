@@ -28,14 +28,14 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
+        // Return a GameFragment (defined as a static inner class below).
         switch(position){
             case 0:
                 return AddressFragment.newInstance(position + 1);
             case 1:
                 return GalleryFragment.newInstance(position + 1);
             default:
-                return PlaceholderFragment.newInstance(position + 1);
+                return GameFragment.newInstance(position + 1);
         }
     }
 
