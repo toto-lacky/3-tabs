@@ -35,7 +35,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return GalleryFragment.newInstance(position + 1);
             default:
-                return GameFragment.newInstance(position + 1);
+                return GameFragment.newInstance();
         }
     }
 

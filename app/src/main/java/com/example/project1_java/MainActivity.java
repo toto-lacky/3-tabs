@@ -10,6 +10,9 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.project1_java.ui.main.SectionsPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     /* 권한 확인 및 요청 함수 */
     public static void setPermission(Context context, String[] permissions){
-        // 추가적으로 요청해야 하는 권한들
+        /* 추가적으로 요청해야 하는 권한들 */
         ArrayList<String> ReqPerm = new ArrayList<>();
 
         /* 현재 권한이 있는지 확인, 없으면 ReqPerm에 추가 */
@@ -49,11 +52,18 @@ public class MainActivity extends AppCompatActivity {
 
         /* 권한 요청 */
         if(ReqPerm.size() != 0)
-            ActivityCompat.requestPermissions((Activity) context, ReqPerm.toArray(new String[ReqPerm.size()]),0);
+            ActivityCompat.requestPermissions((Activity) context, ReqPerm.toArray(new String[0]),0);
 
         /* 권한을 받을 때까지 기다리기 */
         for (String perm : permissions) {
             while (ContextCompat.checkSelfPermission(context, perm) != PackageManager.PERMISSION_GRANTED) {}
         }
     }
+
+    /*
+    public void replaceFragment(Fragment fragment){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, fragment).commit();
+    }*/
 }
