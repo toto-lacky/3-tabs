@@ -9,11 +9,9 @@ import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.project1_java.FixableViewPager;
-import com.example.project1_java.MainActivity;
 import com.example.project1_java.R;
 
 /**

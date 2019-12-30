@@ -15,6 +15,8 @@ import com.example.project1_java.R;
  */
 public class GamePlayFragment extends Fragment {
 
+
+
     static GamePlayFragment newInstance() {
         return new GamePlayFragment();
     }
@@ -25,5 +27,7 @@ public class GamePlayFragment extends Fragment {
             Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_game_play, container, false);
     }
+
+
 
 }
