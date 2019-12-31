@@ -19,26 +19,26 @@
             android:orientation="vertical"
             android:layout_centerHorizontal="true">-->
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/game_logo">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/game_logo">
 
-                <Button
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:id="@+id/menu_button"
-                    android:background="@drawable/menu_button"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="10dp"/>
+            <Button
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:id="@+id/menu_button"
+                android:background="@drawable/menu_button"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="10dp"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="80dp"
-                    android:src="@drawable/game_logo"
-                    android:layout_centerHorizontal="true"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="80dp"
+                android:src="@drawable/game_logo"
+                android:layout_centerHorizontal="true"/>
 
-            </RelativeLayout>
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="@dimen/game_board"

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -35,6 +36,9 @@ public class GameFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        //draw();
+
         final View view = getView();
         assert view != null;
         Button startButton = view.findViewById(R.id.game_start_button);
@@ -62,4 +66,35 @@ public class GameFragment extends Fragment {
             }
         });
     }
+/*
+    public void draw(){
+        View view = getView();
+        assert view != null;
+        View parent = (View)view.getParent();
+        int width = view.getWidth() - 20;
+        int height = view.getHeight();
+
+        int blockSize = width / 4;
+        int titleHeight = blockSize * 2;
+        int buttonSize = (int)(blockSize * 1.5);
+
+        //제목 크기 및 위치 조정
+        int title_top = height/2 - titleHeight;
+        RelativeLayout.LayoutParams title_params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, titleHeight);
+        //RelativeLayout.LayoutParams title_params = new RelativeLayout.LayoutParams(, 100);
+        title_params.setMargins(0,title_top,0,10);
+        View title = view.findViewById(R.id.game_title);
+        title.setLayoutParams(title_params);
+
+        //버튼 크기 및 위치 조정
+        int button_top = (height*3)/4 - buttonSize/2;
+        int button_left = width/2 - buttonSize/2;
+        //RelativeLayout.LayoutParams button_params = new RelativeLayout.LayoutParams(buttonSize, buttonSize);
+        RelativeLayout.LayoutParams button_params = new RelativeLayout.LayoutParams(100,100);
+        Log.d("dimens","button_top: "+button_top+" button_left: "+button_left);
+        button_params.setMargins(button_left,button_top,0,10);
+        //button_params.setMargins(0,button_top,0,0);
+        View button = view.findViewById(R.id.game_start_button);
+        button.setLayoutParams(button_params);
+    }*/
 }
