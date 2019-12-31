@@ -47,15 +47,15 @@ public class GalleryFragment extends Fragment {
             String imgID = "img" + (i+1);
             int resID = getResources().getIdentifier(imgID, "id", getContext().getPackageName());
             imageview[i] = root.findViewById(resID);
-            imageview[i].setOnClickListener(new ImageClickListener2(i));
+            imageview[i].setOnClickListener(new ImageClickListener(i));
             imageview[i].setOnLongClickListener(new ImageLongClickListener(i));
         }
         return root;
     }
 
-    public class ImageClickListener2 implements View.OnClickListener{
+    public class ImageClickListener implements View.OnClickListener{
         int index;
-        public ImageClickListener2(int index){
+        public ImageClickListener(int index){
             this.index = index;
         }
         public void onClick(View v){
