@@ -29,6 +29,8 @@ public class GamePlayFragment extends Fragment{
 
     private int board[][] = new int[4][4];  //보드판 배치 배열
 
+
+
     static GamePlayFragment newInstance() {
         return new GamePlayFragment();
     }
@@ -74,7 +76,6 @@ public class GamePlayFragment extends Fragment{
                 return true;
             }
         });
-
 
 
         return view;
@@ -150,4 +151,8 @@ public class GamePlayFragment extends Fragment{
         }
         return true;
     }
+=======
+
+
+>>>>>>> 117cfa6e1605ececbf66b8076e2074ee50d8c40c
 }
