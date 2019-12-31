@@ -1,5 +1,6 @@
 package com.example.project1_java.ui.main;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.project1_java.FixableViewPager;
 import com.example.project1_java.R;
 
 import java.util.Random;
@@ -59,6 +61,10 @@ public class GamePlayFragment extends Fragment{
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
                 int moveimg;
                 int tmp, emptyindex;
+
+                //일시정지 상태에서는 움직이지 않도록 함
+                if(isPaused)
+                    return super.onFling(e1, e2, velocityX, velocityY);
 
                 if(Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
                     return false;
@@ -123,24 +129,30 @@ public class GamePlayFragment extends Fragment{
             }
         });
 
+        //메뉴 버튼에 listener 추가
         view.findViewById(R.id.menu_button).setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 pauseGame();
+                Log.d("ButtonClick","menu button clicked");
             }
         });
 
+        //resume 버튼에 listener 추가
         view.findViewById(R.id.resume_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 resumeGame();
+                Log.d("ButtonClick","resume button clicked");
             }
         });
 
+        //restart 버튼에 listener 추가
         view.findViewById(R.id.restart_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 restartGame();
+                Log.d("ButtonClick","restart button clicked");
             }
         });
 
@@ -150,7 +162,24 @@ public class GamePlayFragment extends Fragment{
     @Override
     public void onStart() {
         super.onStart();
+        initGame();
+    }
+
+    //게임 초기화
+    private void initGame(){
+        initboard();
         initGraphic();
+        initSettings();
+    }
+
+    //여러 가지 게임 setting 초기화
+    private void initSettings(){
+        View pause_page = getView().findViewById(R.id.pause_screen);
+        pause_page.setVisibility(View.INVISIBLE);
+        pause_page.setAlpha(0);
+
+        fix(true);
+        setPaused(false);
     }
 
     //보드판 그래픽 초기화
@@ -161,7 +190,7 @@ public class GamePlayFragment extends Fragment{
         int width = parent.getWidth() - 20;
         int height = parent.getHeight();
         int blockSize = width / 4;
-        BLOCK_SIZE = blockSize/2;
+        BLOCK_SIZE = blockSize;
         int boardSize = 4 * blockSize;
 
         //로고 크기 및 위치 초기화
@@ -180,13 +209,13 @@ public class GamePlayFragment extends Fragment{
         //Restart 버튼 크기 및 위치 초기화
         int buttonSize = (int)(blockSize*1.5);
         RelativeLayout.LayoutParams restart_params = new RelativeLayout.LayoutParams(buttonSize, buttonSize);
-        restart_params.setMargins(width/2 - buttonSize/2, (height/2) - (int)(buttonSize*1.2),0,0);
+        restart_params.setMargins(width/2 - buttonSize/2, (height/2) + (int)(buttonSize*0.2),0,0);
         View restart = view.findViewById(R.id.restart_button);
         restart.setLayoutParams(restart_params);
 
         //Resume 버튼 크기 및 위치 초기화
         RelativeLayout.LayoutParams resume_params = new RelativeLayout.LayoutParams(buttonSize, buttonSize);
-        resume_params.setMargins(width/2 - buttonSize/2, (height/2) + (int)(buttonSize*0.2),0,0);
+        resume_params.setMargins(width/2 - buttonSize/2, (height/2) - (int)(buttonSize*1.2),0,0);
         View resume = view.findViewById(R.id.resume_button);
         resume.setLayoutParams(resume_params);
 
@@ -198,7 +227,7 @@ public class GamePlayFragment extends Fragment{
 
         //블럭 크기 및 위치 초기화
         RelativeLayout.LayoutParams block_params;
-        initboard();
+        //initboard();
         for(int i = 1; i < 16; i++){
             block_params = new RelativeLayout.LayoutParams(blockSize, blockSize);
             int topMargin = ((i-1)/4)*blockSize;
@@ -208,47 +237,9 @@ public class GamePlayFragment extends Fragment{
             int index = board[(i-1)/4][(i-1)%4];
             String blockID = "block" + index;
 
-            //String blockID = "block" + i;
             int resID = getResources().getIdentifier(blockID, "id", getContext().getPackageName());
             ImageView block = view.findViewById(resID);
             block.setLayoutParams(block_params);
-        }
-    }
-
-    public void moveimg(int index, int dir){
-        RelativeLayout.LayoutParams block_params;
-        block_params = new RelativeLayout.LayoutParams(BLOCK_SIZE, BLOCK_SIZE);
-        int topMargin;
-        int leftMargin;
-        switch(dir){
-            //left
-            case 1 :
-                topMargin = (index/10)*BLOCK_SIZE;
-                leftMargin = (index%10-1)*BLOCK_SIZE;
-                block_params.setMargins(leftMargin, topMargin, 0, 0);
-                imgblock[board[index/10][index%10]].setLayoutParams(block_params);
-                break;
-            //right
-            case 2 :
-                topMargin = (index/10)*BLOCK_SIZE;
-                leftMargin = (index%10+1)*BLOCK_SIZE;
-                block_params.setMargins(leftMargin, topMargin, 0, 0);
-                imgblock[board[index/10][index%10]].setLayoutParams(block_params);
-                break;
-            //up
-            case 3 :
-                topMargin = (index/10-1)*BLOCK_SIZE;
-                leftMargin = (index%10)*BLOCK_SIZE;
-                block_params.setMargins(leftMargin, topMargin, 0, 0);
-                imgblock[board[index/10][index%10]].setLayoutParams(block_params);
-                break;
-            //down
-            case 4 :
-                topMargin = (index/10+1)*BLOCK_SIZE;
-                leftMargin = (index%10)*BLOCK_SIZE;
-                block_params.setMargins(leftMargin, topMargin, 0, 0);
-                imgblock[board[index/10][index%10]].setLayoutParams(block_params);
-                break;
         }
     }
 
@@ -290,6 +281,43 @@ public class GamePlayFragment extends Fragment{
             for(j=0; j<4; j++){
                 board[i][j] = board_[k++];
             }
+        }
+    }
+
+    public void moveimg(int index, int dir){
+        RelativeLayout.LayoutParams block_params;
+        block_params = new RelativeLayout.LayoutParams(BLOCK_SIZE, BLOCK_SIZE);
+        int topMargin;
+        int leftMargin;
+        switch(dir){
+            //left
+            case 1 :
+                topMargin = (index/10)*BLOCK_SIZE;
+                leftMargin = (index%10-1)*BLOCK_SIZE;
+                block_params.setMargins(leftMargin, topMargin, 0, 0);
+                imgblock[board[index/10][index%10]].setLayoutParams(block_params);
+                break;
+            //right
+            case 2 :
+                topMargin = (index/10)*BLOCK_SIZE;
+                leftMargin = (index%10+1)*BLOCK_SIZE;
+                block_params.setMargins(leftMargin, topMargin, 0, 0);
+                imgblock[board[index/10][index%10]].setLayoutParams(block_params);
+                break;
+            //up
+            case 3 :
+                topMargin = (index/10-1)*BLOCK_SIZE;
+                leftMargin = (index%10)*BLOCK_SIZE;
+                block_params.setMargins(leftMargin, topMargin, 0, 0);
+                imgblock[board[index/10][index%10]].setLayoutParams(block_params);
+                break;
+            //down
+            case 4 :
+                topMargin = (index/10+1)*BLOCK_SIZE;
+                leftMargin = (index%10)*BLOCK_SIZE;
+                block_params.setMargins(leftMargin, topMargin, 0, 0);
+                imgblock[board[index/10][index%10]].setLayoutParams(block_params);
+                break;
         }
     }
 
@@ -362,7 +390,7 @@ public class GamePlayFragment extends Fragment{
         return true;
     }
 
-    //게임 일시정지 여부 확인
+    //게임 일시정지 여부 확인 (isPaused getter & setter)
     public boolean getPaused(){
         return isPaused;
     }
@@ -375,6 +403,9 @@ public class GamePlayFragment extends Fragment{
         View pause_page = getView().findViewById(R.id.pause_screen);
         pause_page.setVisibility(View.VISIBLE);
         pause_page.setAlpha(1);
+
+        fix(false);
+        setPaused(true);
         //TODO 게임 내 움직임 비활성화시키기
     }
 
@@ -383,13 +414,22 @@ public class GamePlayFragment extends Fragment{
         View pause_page = getView().findViewById(R.id.pause_screen);
         pause_page.setVisibility(View.INVISIBLE);
         pause_page.setAlpha(0);
+
+        fix(true);
+        setPaused(false);
         //TODO 게임 내 움직임 다시 활성화시키기
     }
 
     //게임 restart시키기
     public void restartGame(){
-        View pause_page = getView().findViewById(R.id.pause_screen);
-        pause_page.setVisibility(View.INVISIBLE);
-        pause_page.setAlpha(0);
+        initGame();
+    }
+
+    //swipe를 enable할지 결정하는 함수
+    public void fix(boolean swipe_fix){
+        Activity activity = getActivity();
+        assert activity != null;
+        FixableViewPager viewPager = activity.findViewById(R.id.view_pager);
+        viewPager.setPageFixed(swipe_fix);
     }
 }

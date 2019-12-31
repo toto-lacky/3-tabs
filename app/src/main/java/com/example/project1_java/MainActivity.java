@@ -46,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 Log.d("Page Change","changed to position: "+position+" class: "+sectionsPagerAdapter.getRegisteredFragment(position).getClass());
                 Fragment frag = sectionsPagerAdapter.getRegisteredFragment(2);
-                assert frag.getClass() == GamePlayFragment.class;
+                if(frag.getClass() != GamePlayFragment.class)
+                    return;
                 if (position == 2){
                     if (((GamePlayFragment) frag).getPaused()){
                         viewPager.setPageFixed(false);

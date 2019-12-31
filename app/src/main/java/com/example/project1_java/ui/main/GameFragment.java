@@ -46,7 +46,7 @@ public class GameFragment extends Fragment {
                 Activity activity = getActivity();
                 assert activity != null;
                 FixableViewPager viewPager = activity.findViewById(R.id.view_pager);
-                viewPager.setPageFixed(!viewPager.getPageFixed());
+                viewPager.setPageFixed(true);
 
                 /* Switch to gamePlayFragment */
                 assert getFragmentManager() != null;
