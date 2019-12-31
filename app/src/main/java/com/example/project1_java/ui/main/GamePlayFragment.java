@@ -67,8 +67,9 @@ public class GamePlayFragment extends Fragment{
                 if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY){
                     if(!leftable()) return false;
                     emptyindex = emptyindex();
-                    moveimg = board[emptyindex/10][emptyindex%10+1];
-                    imgblock[moveimg].scrollBy(BLOCK_SIZE,0);
+                    moveimg(emptyindex+1,1);
+                    //moveimg = board[emptyindex/10][emptyindex%10+1];
+                    //imgblock[moveimg].scrollBy(BLOCK_SIZE,0);
                     tmp = board[emptyindex/10][emptyindex%10+1];
                     board[emptyindex/10][emptyindex%10+1] = 0;
                     board[emptyindex/10][emptyindex%10] = tmp;
@@ -78,8 +79,9 @@ public class GamePlayFragment extends Fragment{
                 else if(e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY){
                     if(!rightable()) return false;
                     emptyindex = emptyindex();
-                    moveimg = board[emptyindex/10][emptyindex%10-1];
-                    imgblock[moveimg].scrollBy(-BLOCK_SIZE,0);
+                    moveimg(emptyindex-1,2);
+                    //moveimg = board[emptyindex/10][emptyindex%10-1];
+                    //imgblock[moveimg].scrollBy(-BLOCK_SIZE,0);
                     tmp = board[emptyindex/10][emptyindex%10-1];
                     board[emptyindex/10][emptyindex%10-1] = 0;
                     board[emptyindex/10][emptyindex%10] = tmp;
@@ -89,8 +91,9 @@ public class GamePlayFragment extends Fragment{
                 else if(e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY){
                     if(!upable()) return false;
                     emptyindex = emptyindex();
-                    moveimg = board[emptyindex/10+1][emptyindex%10];
-                    imgblock[moveimg].scrollBy(0,BLOCK_SIZE);
+                    moveimg(emptyindex+10,3);
+                    //moveimg = board[emptyindex/10+1][emptyindex%10];
+                    //imgblock[moveimg].scrollBy(0,BLOCK_SIZE);
                     tmp = board[emptyindex/10+1][emptyindex%10];
                     board[emptyindex/10+1][emptyindex%10] = 0;
                     board[emptyindex/10][emptyindex%10] = tmp;
@@ -100,8 +103,9 @@ public class GamePlayFragment extends Fragment{
                 else if(e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY){
                     if(!downable()) return false;
                     emptyindex = emptyindex();
-                    moveimg = board[emptyindex/10-1][emptyindex%10];
-                    imgblock[moveimg].scrollBy(0,-BLOCK_SIZE);
+                    moveimg(emptyindex-10,4);
+                    //moveimg = board[emptyindex/10-1][emptyindex%10];
+                    //imgblock[moveimg].scrollBy(0,-BLOCK_SIZE);
                     tmp = board[emptyindex/10-1][emptyindex%10];
                     board[emptyindex/10-1][emptyindex%10] = 0;
                     board[emptyindex/10][emptyindex%10] = tmp;
@@ -208,6 +212,43 @@ public class GamePlayFragment extends Fragment{
             int resID = getResources().getIdentifier(blockID, "id", getContext().getPackageName());
             ImageView block = view.findViewById(resID);
             block.setLayoutParams(block_params);
+        }
+    }
+
+    public void moveimg(int index, int dir){
+        RelativeLayout.LayoutParams block_params;
+        block_params = new RelativeLayout.LayoutParams(BLOCK_SIZE, BLOCK_SIZE);
+        int topMargin;
+        int leftMargin;
+        switch(dir){
+            //left
+            case 1 :
+                topMargin = (index/10)*BLOCK_SIZE;
+                leftMargin = (index%10-1)*BLOCK_SIZE;
+                block_params.setMargins(leftMargin, topMargin, 0, 0);
+                imgblock[board[index/10][index%10]].setLayoutParams(block_params);
+                break;
+            //right
+            case 2 :
+                topMargin = (index/10)*BLOCK_SIZE;
+                leftMargin = (index%10+1)*BLOCK_SIZE;
+                block_params.setMargins(leftMargin, topMargin, 0, 0);
+                imgblock[board[index/10][index%10]].setLayoutParams(block_params);
+                break;
+            //up
+            case 3 :
+                topMargin = (index/10-1)*BLOCK_SIZE;
+                leftMargin = (index%10)*BLOCK_SIZE;
+                block_params.setMargins(leftMargin, topMargin, 0, 0);
+                imgblock[board[index/10][index%10]].setLayoutParams(block_params);
+                break;
+            //down
+            case 4 :
+                topMargin = (index/10+1)*BLOCK_SIZE;
+                leftMargin = (index%10)*BLOCK_SIZE;
+                block_params.setMargins(leftMargin, topMargin, 0, 0);
+                imgblock[board[index/10][index%10]].setLayoutParams(block_params);
+                break;
         }
     }
 
