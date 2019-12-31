@@ -24,6 +24,14 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/game_logo">
 
+                <Button
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:id="@+id/menu_button"
+                    android:background="@drawable/menu_button"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"/>
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="80dp"
@@ -167,6 +175,42 @@
                 android:src="@drawable/block_15" />
 
         </RelativeLayout>
-<!--        </LinearLayout>-->
+
+        <!--        </LinearLayout>-->
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/pause_screen"
+        android:alpha="1"
+        android:visibility="visible">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:src="@drawable/pause_background" />
+
+        <Button
+            android:id="@+id/resume_button"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/resume_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="200dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp" />
+
+        <Button
+            android:id="@+id/restart_button"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:background="@drawable/restart_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="400dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp" />
+
     </RelativeLayout>
 </FrameLayout>
