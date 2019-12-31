@@ -159,8 +159,6 @@ public class GamePlayFragment extends Fragment{
             int leftMargin = ((i-1)%4)*blockSize;
             block_params.setMargins(leftMargin,topMargin,0,0);
 
-
-
             int index = board[(i-1)/4][(i-1)%4];
             String blockID = "block" + index;
 
@@ -169,7 +167,6 @@ public class GamePlayFragment extends Fragment{
             ImageView block = view.findViewById(resID);
             block.setLayoutParams(block_params);
         }
-
     }
 
     //보드판에 랜덤 배치하기
@@ -211,10 +208,6 @@ public class GamePlayFragment extends Fragment{
                 board[i][j] = board_[k++];
             }
         }
-        for(i = 0 ; i<4; i++){
-            Log.d("array","content: "+board[i][0]+" "+board[i][1]+" "+board[i][2]+" "+board[i][3]);
-        }
-
     }
     //섞인 배치를 풀 수 있는지
     public boolean clearable(int[] board){
