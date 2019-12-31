@@ -219,7 +219,7 @@ public class GamePlayFragment extends Fragment{
         //블럭 크기 및 위치 초기화
         RelativeLayout.LayoutParams block_params;
 
-        for(int i = 0; i < 16; i++){
+        for(int i = 0; i < 15; i++){
             block_params = new RelativeLayout.LayoutParams(blockSize, blockSize);
             int topMargin = (i/4)*blockSize;
             int leftMargin = (i%4)*blockSize;
@@ -227,6 +227,7 @@ public class GamePlayFragment extends Fragment{
 
             int index = board[i/4][i%4];
             String blockID = "block" + index;
+
             int resID = getResources().getIdentifier(blockID, "id", getContext().getPackageName());
             ImageView block = view.findViewById(resID);
             block.setLayoutParams(block_params);
