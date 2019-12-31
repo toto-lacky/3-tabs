@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -78,9 +79,59 @@ public class GamePlayFragment extends Fragment{
         return view;
     }
 
+<<<<<<< HEAD
+=======
+    @Override
+    public void onStart() {
+        super.onStart();
+        initGraphic();
+    }
+
+    //보드판 그래픽 초기화
+    private void initGraphic(){
+        //Log.d("\n\nInitGraphic","entered");
+        View view = getView();
+        assert view != null;
+        View parent = (View)view.getParent();
+        int width = parent.getWidth();
+        int height = parent.getHeight();
+        int blockSize = width / 4;
+        int boardSize = 4 * blockSize;
+        //Log.d("InitGraphic","blockSize: "+blockSize+" boardSize: "+boardSize);
+
+        //로고 크기 및 위치 초기화
+        int logoHeight = (height-width)/2;
+        RelativeLayout.LayoutParams logo_params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, logoHeight);
+        logo_params.setMargins(0,10,0,10);
+        View logo = view.findViewById(R.id.game_logo);
+        logo.setLayoutParams(logo_params);
+
+        //보드 크기 및 위치 초기화
+        RelativeLayout.LayoutParams board_params = new RelativeLayout.LayoutParams(boardSize, boardSize);
+        board_params.setMargins(0,logoHeight+20,0,0);
+        View board = view.findViewById(R.id.game_board);
+        board.setLayoutParams(board_params);
+
+        //블럭 크기 및 위치 초기화
+        RelativeLayout.LayoutParams block_params;
+        for(int i = 1; i < 16; i++){
+            block_params = new RelativeLayout.LayoutParams(blockSize, blockSize);
+            int topMargin = ((i-1)/4)*blockSize;
+            int leftMargin = ((i-1)%4)*blockSize;
+            block_params.setMargins(leftMargin,topMargin,0,0);
+
+            String blockID = "block" + i;
+            int resID = getResources().getIdentifier(blockID, "id", getContext().getPackageName());
+            ImageView block = view.findViewById(resID);
+            block.setLayoutParams(block_params);
+        }
+
+    }
+>>>>>>> 016f15c80767bf24492315caeab694e363ac4f51
 
     //보드판에 랜덤 배치하기
     public void initboard(){
+
         int tmp;
         int index_r;
         int board_[] = new int[16];
