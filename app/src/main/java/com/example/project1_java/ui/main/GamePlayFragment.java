@@ -134,7 +134,7 @@ public class GamePlayFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 pauseGame();
-                Log.d("ButtonClick","menu button clicked");
+                //Log.d("ButtonClick","menu button clicked");
             }
         });
 
@@ -143,7 +143,7 @@ public class GamePlayFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 resumeGame();
-                Log.d("ButtonClick","resume button clicked");
+                //Log.d("ButtonClick","resume button clicked");
             }
         });
 
@@ -152,7 +152,7 @@ public class GamePlayFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 restartGame();
-                Log.d("ButtonClick","restart button clicked");
+                //Log.d("ButtonClick","restart button clicked");
             }
         });
 
@@ -228,17 +228,25 @@ public class GamePlayFragment extends Fragment{
         //블럭 크기 및 위치 초기화
         RelativeLayout.LayoutParams block_params;
         //initboard();
-        for(int i = 1; i < 16; i++){
+
+        for(int i=0; i<4; i++)
+            Log.d("Board"," "+board[i][0]+" "+board[i][1]+" "+board[i][2]+" "+board[i][3]);
+
+        for(int i = 0; i < 16; i++){
             block_params = new RelativeLayout.LayoutParams(blockSize, blockSize);
-            int topMargin = ((i-1)/4)*blockSize;
-            int leftMargin = ((i-1)%4)*blockSize;
+            int topMargin = (i/4)*blockSize;
+            int leftMargin = (i%4)*blockSize;
             block_params.setMargins(leftMargin,topMargin,0,0);
 
-            int index = board[(i-1)/4][(i-1)%4];
+            int index = board[i/4][i%4];
             String blockID = "block" + index;
+            if(index == 0)
+                continue;
 
             int resID = getResources().getIdentifier(blockID, "id", getContext().getPackageName());
+            Log.d("FindBug","blockID: "+blockID+" resID: "+resID);
             ImageView block = view.findViewById(resID);
+            Log.d("FindBug","block: "+block);
             block.setLayoutParams(block_params);
         }
     }
@@ -265,10 +273,8 @@ public class GamePlayFragment extends Fragment{
         }
         //재배치
         while(!clearable(board_)){
-            for(i = 0; i <16; i++){
-                board_[i] = i;
-            }
-            for(i = 15 ; i>0; i--){
+
+            for(i = 14 ; i>1; i--){
                 index_r = r.nextInt(i);
                 tmp = board_[i];
                 board_[i] = board_[index_r];
@@ -399,7 +405,6 @@ public class GamePlayFragment extends Fragment{
 
         fix(false);
         setPaused(true);
-        //TODO 게임 내 움직임 비활성화시키기
     }
 
     //게임 resume시키기
@@ -410,7 +415,6 @@ public class GamePlayFragment extends Fragment{
 
         fix(true);
         setPaused(false);
-        //TODO 게임 내 움직임 다시 활성화시키기
     }
 
     //게임 restart시키기
