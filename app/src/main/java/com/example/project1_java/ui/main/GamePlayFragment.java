@@ -51,7 +51,6 @@ public class GamePlayFragment extends Fragment{
                 //right to left
                 if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY){
                     Toast.makeText(getContext(), "Left Swipe", Toast.LENGTH_SHORT).show();
-                    Log.d("MyLog","left swipe");
                 }
                 //left to right
                 else if(e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY){
@@ -76,9 +75,9 @@ public class GamePlayFragment extends Fragment{
                 return true;
             }
         });
-
         return view;
     }
+
 
     //보드판에 랜덤 배치하기
     public void initboard(){
@@ -87,7 +86,7 @@ public class GamePlayFragment extends Fragment{
         int board_[] = new int[16];
         int i, j, k;
         Random r = new Random();
-
+        //배치
         for(i = 0; i <16; i++){
             board_[i] = i;
         }
@@ -97,8 +96,8 @@ public class GamePlayFragment extends Fragment{
             board_[i] = board_[index_r];
             board_[index_r] = tmp;
         }
-
-        while(clearable(board_)){
+        //재배치
+        while(!clearable(board_)){
             for(i = 0; i <16; i++){
                 board_[i] = i;
             }
@@ -109,7 +108,7 @@ public class GamePlayFragment extends Fragment{
                 board_[index_r] = tmp;
             }
         }
-
+        //board 판에 옮기기
         k=0;
         for(i = 0 ; i<4; i++){
             for(j=0; j<4; j++){
@@ -169,7 +168,7 @@ public class GamePlayFragment extends Fragment{
         return true;
     }
     public boolean downable() {
-        int index = emptyindex() / 10;
+        int index = emptyindex()/10;
         if (index == 0) return false;
         return true;
     }
