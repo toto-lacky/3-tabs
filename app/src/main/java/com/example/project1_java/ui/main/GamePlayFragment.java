@@ -27,11 +27,8 @@ public class GamePlayFragment extends Fragment{
     private static final int SWIPE_MAX_OFF_PATH = 800;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
-<<<<<<< HEAD
     private static int BLOCK_SIZE;
 
-=======
->>>>>>> 3d352d2d882f96fe4a4b36ac4cc8f5c9289bf29f
     private int board[][] = new int[4][4];  //보드판 배치 배열
 
     static GamePlayFragment newInstance() {
