@@ -28,6 +28,8 @@ public class GamePlayFragment extends Fragment{
     private static final int SWIPE_MAX_OFF_PATH = 800;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
+    private ImageView imgblock[] = new ImageView[16];
+
     private static int BLOCK_SIZE;
 
     private int board[][] = new int[4][4];  //보드판 배치 배열
@@ -43,27 +45,64 @@ public class GamePlayFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_game_play, container, false);
         RelativeLayout rl = view.findViewById(R.id.relativeLayout);
 
+        for(int i = 1; i<16; i++){
+            String blockID = "block" + i;
+            int resID = getResources().getIdentifier(blockID, "id", getContext().getPackageName());
+            imgblock[i] = view.findViewById(resID);
+        }
+
         final GestureDetector gd = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener(){
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
+                int moveimg;
+                int tmp, emptyindex;
+
                 if(Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
                     return false;
 
                 //right to left
                 if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY){
-                    Toast.makeText(getContext(), "Left Swipe", Toast.LENGTH_SHORT).show();
+                    if(!leftable()) return false;
+                    emptyindex = emptyindex();
+                    moveimg = board[emptyindex/10][emptyindex%10+1];
+                    imgblock[moveimg].scrollBy(BLOCK_SIZE,0);
+                    tmp = board[emptyindex/10][emptyindex%10+1];
+                    board[emptyindex/10][emptyindex%10+1] = 0;
+                    board[emptyindex/10][emptyindex%10] = tmp;
+                    if(check_clear()) Toast.makeText(getContext(), "CLEAR", Toast.LENGTH_SHORT).show();
                 }
                 //left to right
                 else if(e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY){
-                    Toast.makeText(getContext(), "right Swipe", Toast.LENGTH_SHORT).show();
+                    if(!rightable()) return false;
+                    emptyindex = emptyindex();
+                    moveimg = board[emptyindex/10][emptyindex%10-1];
+                    imgblock[moveimg].scrollBy(-BLOCK_SIZE,0);
+                    tmp = board[emptyindex/10][emptyindex%10-1];
+                    board[emptyindex/10][emptyindex%10-1] = 0;
+                    board[emptyindex/10][emptyindex%10] = tmp;
+                    if(check_clear()) Toast.makeText(getContext(), "CLEAR", Toast.LENGTH_SHORT).show();
                 }
                 //down to up
                 else if(e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY){
-                    Toast.makeText(getContext(), "up Swipe", Toast.LENGTH_SHORT).show();
+                    if(!upable()) return false;
+                    emptyindex = emptyindex();
+                    moveimg = board[emptyindex/10+1][emptyindex%10];
+                    imgblock[moveimg].scrollBy(0,BLOCK_SIZE);
+                    tmp = board[emptyindex/10+1][emptyindex%10];
+                    board[emptyindex/10+1][emptyindex%10] = 0;
+                    board[emptyindex/10][emptyindex%10] = tmp;
+                    if(check_clear()) Toast.makeText(getContext(), "CLEAR", Toast.LENGTH_SHORT).show();
                 }
                 //up to down
                 else if(e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY){
-                    Toast.makeText(getContext(), "down Swipe", Toast.LENGTH_SHORT).show();
+                    if(!downable()) return false;
+                    emptyindex = emptyindex();
+                    moveimg = board[emptyindex/10-1][emptyindex%10];
+                    imgblock[moveimg].scrollBy(0,-BLOCK_SIZE);
+                    tmp = board[emptyindex/10-1][emptyindex%10];
+                    board[emptyindex/10-1][emptyindex%10] = 0;
+                    board[emptyindex/10][emptyindex%10] = tmp;
+                    if(check_clear()) Toast.makeText(getContext(), "CLEAR", Toast.LENGTH_SHORT).show();
                 }
                 return super.onFling(e1, e2, velocityX, velocityY);
             }
@@ -130,13 +169,19 @@ public class GamePlayFragment extends Fragment{
 
         //블럭 크기 및 위치 초기화
         RelativeLayout.LayoutParams block_params;
+        initboard();
         for(int i = 1; i < 16; i++){
             block_params = new RelativeLayout.LayoutParams(blockSize, blockSize);
             int topMargin = ((i-1)/4)*blockSize;
             int leftMargin = ((i-1)%4)*blockSize;
             block_params.setMargins(leftMargin,topMargin,0,0);
 
-            String blockID = "block" + i;
+
+
+            int index = board[(i-1)/4][(i-1)%4];
+            String blockID = "block" + index;
+
+            //String blockID = "block" + i;
             int resID = getResources().getIdentifier(blockID, "id", getContext().getPackageName());
             ImageView block = view.findViewById(resID);
             block.setLayoutParams(block_params);
@@ -153,11 +198,13 @@ public class GamePlayFragment extends Fragment{
         int i, j, k;
         Random r = new Random();
         //배치
-        for(i = 0; i <16; i++){
-            board_[i] = i;
+        for(i = 0; i <15; i++){
+            board_[i] = i+1;
         }
-        for(i = 15 ; i>0; i--){
-            index_r = r.nextInt(i-1);
+        board_[15] = 0;
+
+        for(i = 14 ; i>1; i--){
+            index_r = r.nextInt(i);
             tmp = board_[i];
             board_[i] = board_[index_r];
             board_[index_r] = tmp;
@@ -168,7 +215,7 @@ public class GamePlayFragment extends Fragment{
                 board_[i] = i;
             }
             for(i = 15 ; i>0; i--){
-                index_r = r.nextInt(i-1);
+                index_r = r.nextInt(i);
                 tmp = board_[i];
                 board_[i] = board_[index_r];
                 board_[index_r] = tmp;
@@ -181,6 +228,10 @@ public class GamePlayFragment extends Fragment{
                 board[i][j] = board_[k++];
             }
         }
+        for(i = 0 ; i<4; i++){
+            Log.d("array","content: "+board[i][0]+" "+board[i][1]+" "+board[i][2]+" "+board[i][3]);
+        }
+
     }
     //섞인 배치를 풀 수 있는지
     public boolean clearable(int[] board){
