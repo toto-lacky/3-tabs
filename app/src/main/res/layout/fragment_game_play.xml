@@ -37,12 +37,14 @@
             android:layout_height="@dimen/game_board"
             android:layout_below="@id/game_logo"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="5dp"
+            android:id="@+id/game_board">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/board_inside" />
+                android:src="@drawable/board_inside"
+                android:id="@+id/board_image"/>
 
             <ImageView
                 android:id="@+id/block1"
