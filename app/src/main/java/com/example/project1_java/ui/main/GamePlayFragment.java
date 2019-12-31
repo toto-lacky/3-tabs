@@ -126,16 +126,14 @@ public class GamePlayFragment extends Fragment{
 
     //보드판 그래픽 초기화
     private void initGraphic(){
-        //Log.d("\n\nInitGraphic","entered");
         View view = getView();
         assert view != null;
         View parent = (View)view.getParent();
-        int width = parent.getWidth();
+        int width = parent.getWidth() - 20;
         int height = parent.getHeight();
         int blockSize = width / 4;
         BLOCK_SIZE = blockSize;
         int boardSize = 4 * blockSize;
-        //Log.d("InitGraphic","blockSize: "+blockSize+" boardSize: "+boardSize);
 
         //로고 크기 및 위치 초기화
         int logoHeight = (height-width)/2;
@@ -144,11 +142,30 @@ public class GamePlayFragment extends Fragment{
         View logo = view.findViewById(R.id.game_logo);
         logo.setLayoutParams(logo_params);
 
+        //메뉴 버튼 크기 및 위치 초기화
+        RelativeLayout.LayoutParams menu_params = new RelativeLayout.LayoutParams(logoHeight, logoHeight);
+        menu_params.setMargins(10,10,0,0);
+        View menu = view.findViewById(R.id.menu_button);
+        menu.setLayoutParams(menu_params);
+
+        //Restart 버튼 크기 및 위치 초기화
+        int buttonSize = (int)(blockSize*1.5);
+        RelativeLayout.LayoutParams restart_params = new RelativeLayout.LayoutParams(buttonSize, buttonSize);
+        restart_params.setMargins(width/2 - buttonSize/2, (height/2) - (int)(buttonSize*1.2),0,0);
+        View restart = view.findViewById(R.id.restart_button);
+        restart.setLayoutParams(restart_params);
+
+        //Resume 버튼 크기 및 위치 초기화
+        RelativeLayout.LayoutParams resume_params = new RelativeLayout.LayoutParams(buttonSize, buttonSize);
+        resume_params.setMargins(width/2 - buttonSize/2, (height/2) + (int)(buttonSize*0.2),0,0);
+        View resume = view.findViewById(R.id.resume_button);
+        resume.setLayoutParams(resume_params);
+
         //보드 크기 및 위치 초기화
         RelativeLayout.LayoutParams board_params = new RelativeLayout.LayoutParams(boardSize, boardSize);
-        board_params.setMargins(0,logoHeight+20,0,0);
-        View boardv = view.findViewById(R.id.game_board);
-        boardv.setLayoutParams(board_params);
+        board_params.setMargins(10,logoHeight+20,0,0);
+        View board_view = view.findViewById(R.id.game_board);
+        board_view.setLayoutParams(board_params);
 
         //블럭 크기 및 위치 초기화
         RelativeLayout.LayoutParams block_params;
