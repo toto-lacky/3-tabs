@@ -226,11 +226,7 @@ public class GamePlayFragment extends Fragment{
             block_params.setMargins(leftMargin,topMargin,0,0);
 
             int index = board[i/4][i%4];
-            String blockID = "block" + index;
-
-            int resID = getResources().getIdentifier(blockID, "id", getContext().getPackageName());
-            ImageView block = view.findViewById(resID);
-            block.setLayoutParams(block_params);
+            imgblock[index].setLayoutParams(block_params);
         }
     }
 
