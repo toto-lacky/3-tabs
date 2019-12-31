@@ -74,4 +74,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getRegisteredFragment(int position){
         return registeredFragments.get(position);
     }
+
+    public void replaceFragment(int position, Fragment fragment){
+        registeredFragments.put(position, fragment);
+    }
 }

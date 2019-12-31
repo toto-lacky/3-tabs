@@ -45,13 +45,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 Log.d("Page Change","changed to position: "+position+" class: "+sectionsPagerAdapter.getRegisteredFragment(position).getClass());
+                Fragment frag = sectionsPagerAdapter.getRegisteredFragment(2);
+                assert frag.getClass() == GamePlayFragment.class;
                 if (position == 2){
-                    Fragment frag = sectionsPagerAdapter.getRegisteredFragment(2);
-                    assert frag.getClass() == GameFragment.class;
-                    if (((GameFragment)frag).getGameOn()){
+                    if (((GamePlayFragment) frag).getPaused()){
+                        viewPager.setPageFixed(false);
+                    } else {
                         viewPager.setPageFixed(true);
                     }
                 } else {
+                    if(!((GamePlayFragment) frag).getPaused())
+                        ((GamePlayFragment) frag).pauseGame();
                     viewPager.setPageFixed(false);
                 }
             }
