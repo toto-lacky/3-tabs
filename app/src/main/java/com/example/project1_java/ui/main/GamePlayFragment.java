@@ -323,16 +323,8 @@ public class GamePlayFragment extends Fragment{
 
     //섞인 배치를 풀 수 있는지
     public boolean clearable(int[] board){
-        int emptyindex= -1;
-        int xb, ic;
+        int ic;
         int i,j;
-
-        for(i=0; i<15; i++){
-            if(board[i] == 15){
-                emptyindex = i; break;
-            }
-        }
-        xb = 4 - emptyindex/4;
 
         ic = 0;
         for(i=0; i<14;i++){
@@ -341,7 +333,7 @@ public class GamePlayFragment extends Fragment{
                     ic++;
             }
         }
-        if((xb + ic) % 2 == 0) return false;
+        if((1 + ic) % 2 == 0) return false;
         else return true;
     }
 
@@ -384,6 +376,7 @@ public class GamePlayFragment extends Fragment{
         k = 1;
         for(i=0 ; i<4; i++){
             for(j=0; j<4; j++){
+                if(i==3 && j==3) continue;
                 if(board[i][j] != k++) return false;
             }
         }
