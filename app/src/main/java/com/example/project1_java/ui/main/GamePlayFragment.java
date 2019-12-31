@@ -27,9 +27,9 @@ public class GamePlayFragment extends Fragment{
     private static final int SWIPE_MAX_OFF_PATH = 800;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
+    private static int BLOCK_SIZE;
+
     private int board[][] = new int[4][4];  //보드판 배치 배열
-
-
 
     static GamePlayFragment newInstance() {
         return new GamePlayFragment();
@@ -77,7 +77,6 @@ public class GamePlayFragment extends Fragment{
             }
         });
 
-
         return view;
     }
 
@@ -92,13 +91,25 @@ public class GamePlayFragment extends Fragment{
         for(i = 0; i <16; i++){
             board_[i] = i;
         }
-
         for(i = 15 ; i>0; i--){
             index_r = r.nextInt(i-1);
             tmp = board_[i];
             board_[i] = board_[index_r];
             board_[index_r] = tmp;
         }
+
+        while(clearable(board_)){
+            for(i = 0; i <16; i++){
+                board_[i] = i;
+            }
+            for(i = 15 ; i>0; i--){
+                index_r = r.nextInt(i-1);
+                tmp = board_[i];
+                board_[i] = board_[index_r];
+                board_[index_r] = tmp;
+            }
+        }
+
         k=0;
         for(i = 0 ; i<4; i++){
             for(j=0; j<4; j++){
@@ -106,13 +117,36 @@ public class GamePlayFragment extends Fragment{
             }
         }
     }
+    //섞인 배치를 풀 수 있는지
+    public boolean clearable(int[] board){
+        int emptyindex= -1;
+        int xb, ic;
+        int i,j;
 
-    //현재 빈 공간(15)이 어디인지 반환
+        for(i=0; i<15; i++){
+            if(board[i] == 15){
+                emptyindex = i; break;
+            }
+        }
+        xb = 4 - emptyindex/4;
+
+        ic = 0;
+        for(i=0; i<14;i++){
+            for(j=i+1; j<15; j++){
+                if(board[i] != 0 && board[j] !=0 && board[i] > board[j])
+                    ic++;
+            }
+        }
+        if((xb + ic) % 2 == 0) return false;
+        else return true;
+    }
+
+    //현재 빈 공간(0)이 어디인지 반환
     public int emptyindex(){
         int i,j;
         for(i=0; i<4; i++){
             for(j=0;j<4; j++){
-                if(board[i][j] == 15) return i*10+j;
+                if(board[i][j] == 0) return i*10+j;
             }
         }
         return -1;
@@ -143,16 +177,12 @@ public class GamePlayFragment extends Fragment{
     //clear 했는지 확인
     public boolean check_clear(){
         int i, j, k;
-        k = 0;
-        for(i = 0 ; i<4; i++){
+        k = 1;
+        for(i=0 ; i<4; i++){
             for(j=0; j<4; j++){
                 if(board[i][j] != k++) return false;
             }
         }
         return true;
     }
-=======
-
-
->>>>>>> 117cfa6e1605ececbf66b8076e2074ee50d8c40c
 }
