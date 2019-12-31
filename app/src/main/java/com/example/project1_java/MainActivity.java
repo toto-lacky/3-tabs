@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.project1_java.ui.main.GameFragment;
 import com.example.project1_java.ui.main.GamePlayFragment;
 import com.example.project1_java.ui.main.SectionsPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
@@ -44,13 +45,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 Log.d("Page Change","changed to position: "+position+" class: "+sectionsPagerAdapter.getRegisteredFragment(position).getClass());
-                if (position != 2){
-                    viewPager.setPageFixed(false);
-                } else {
+                if (position == 2){
                     Fragment frag = sectionsPagerAdapter.getRegisteredFragment(2);
-                    if (frag.getClass() == GamePlayFragment.class){
+                    assert frag.getClass() == GameFragment.class;
+                    if (((GameFragment)frag).getGameOn()){
                         viewPager.setPageFixed(true);
                     }
+                } else {
+                    viewPager.setPageFixed(false);
                 }
             }
         });

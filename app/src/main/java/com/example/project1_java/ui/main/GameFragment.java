@@ -20,7 +20,7 @@ import com.example.project1_java.R;
  */
 public class GameFragment extends Fragment {
 
-    public boolean isGameOn = false;
+    private boolean isGameOn = false;
 
     static GameFragment newInstance() {
         return new GameFragment();
@@ -62,5 +62,13 @@ public class GameFragment extends Fragment {
                 //((MainActivity)getActivity()).replaceFragment(GamePlayFragment.newInstance());
             }
         });
+    }
+
+    public boolean getGameOn(){
+        return isGameOn;
+    }
+
+    public void setGameOn(boolean b){
+        isGameOn = b;
     }
 }

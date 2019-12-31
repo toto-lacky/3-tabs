@@ -149,8 +149,4 @@ public class GamePlayFragment extends Fragment{
         }
         return true;
     }
-=======
-
-
->>>>>>> 117cfa6e1605ececbf66b8076e2074ee50d8c40c
 }
