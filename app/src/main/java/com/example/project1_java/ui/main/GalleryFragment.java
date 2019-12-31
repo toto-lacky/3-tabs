@@ -23,7 +23,6 @@ public class GalleryFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
     private ImageView imageview[] = new ImageView[24];
     private Uri uris[] = new Uri[24];
-    //private String path[] = new String[]{"default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default", "default"};
 
     public static GalleryFragment newInstance(int index) {
         GalleryFragment fragment = new GalleryFragment();
