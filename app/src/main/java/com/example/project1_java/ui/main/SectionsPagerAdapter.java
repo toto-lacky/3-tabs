@@ -1,7 +1,10 @@
 package com.example.project1_java.ui.main;
 
 import android.content.Context;
+import android.util.SparseArray;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
@@ -13,12 +16,14 @@ import com.example.project1_java.R;
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
+ * Additional functionality added to manage registered fragments
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2, R.string.tab_text_3};
     private final Context mContext;
+    private SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
@@ -49,5 +54,24 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         // Show 3 total pages.
         return 3;
+    }
+
+    // Functions to add fragment management functionality
+    @NonNull
+    @Override
+    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+        registeredFragments.put(position, fragment);
+        return fragment;
+    }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        registeredFragments.remove(position);
+        super.destroyItem(container, position, object);
+    }
+
+    public Fragment getRegisteredFragment(int position){
+        return registeredFragments.get(position);
     }
 }

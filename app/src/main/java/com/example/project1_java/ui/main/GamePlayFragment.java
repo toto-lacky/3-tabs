@@ -15,8 +15,6 @@ import com.example.project1_java.R;
  */
 public class GamePlayFragment extends Fragment {
 
-
-
     static GamePlayFragment newInstance() {
         return new GamePlayFragment();
     }
