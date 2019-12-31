@@ -13,7 +13,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
+import com.example.project1_java.ui.main.GameFragment;
+import com.example.project1_java.ui.main.GamePlayFragment;
 import com.example.project1_java.ui.main.SectionsPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
@@ -25,15 +28,36 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-        FixableViewPager viewPager = findViewById(R.id.view_pager);
+        final SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        final FixableViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(5);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
 
-        String[] reqPermissions = {Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE};
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.d("Page Change","changed to position: "+position+" class: "+sectionsPagerAdapter.getRegisteredFragment(position).getClass());
+                if (position == 2){
+                    Fragment frag = sectionsPagerAdapter.getRegisteredFragment(2);
+                    assert frag.getClass() == GameFragment.class;
+                    if (((GameFragment)frag).getGameOn()){
+                        viewPager.setPageFixed(true);
+                    }
+                } else {
+                    viewPager.setPageFixed(false);
+                }
+            }
+        });
+
+        String[] reqPermissions = {Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE};
         setPermission(this, reqPermissions);
     }
 
@@ -56,9 +80,29 @@ public class MainActivity extends AppCompatActivity {
 
         /* 권한을 받을 때까지 기다리기 */
         for (String perm : permissions) {
-            while (ContextCompat.checkSelfPermission(context, perm) != PackageManager.PERMISSION_GRANTED) {}
+            while (ContextCompat.checkSelfPermission(context, perm) != PackageManager.PERMISSION_GRANTED) {
+                Log.d("Permission","waiting for permission " + perm);
+            }
         }
     }
+
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode,
+//                                           String[] permissions, int[] grantResults) {
+//        /* 다시 요청해야 하는 권한들 */
+//        ArrayList<String> ReqPerm = new ArrayList<>();
+//        for (int i = 0; i < permissions.length; i++) {
+//            if(grantResults[i] == PackageManager.PERMISSION_GRANTED){
+//                Log.d("Permission","permission " + permissions[i] + " granted");
+//            } else {
+//                ReqPerm.add(permissions[i]);
+//                Log.d("Permission","permission " + permissions[i] + " denied");
+//            }
+//        }
+//
+//        if(ReqPerm.size() > 0)
+//            ActivityCompat.requestPermissions((Activity) getApplicationContext(), ReqPerm.toArray(new String[0]),0);
+//    }
 
     /*
     public void replaceFragment(Fragment fragment){

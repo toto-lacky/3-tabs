@@ -1,5 +1,6 @@
 package com.example.project1_java.ui.main;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import com.example.project1_java.R;
  * A placeholder fragment containing a simple view.
  */
 public class GameFragment extends Fragment {
+
+    private boolean isGameOn = false;
 
     static GameFragment newInstance() {
         return new GameFragment();
@@ -42,25 +45,30 @@ public class GameFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 /* Block swipe */
-                FixableViewPager viewPager;
-                try{
-                    viewPager = getActivity().findViewById(R.id.view_pager);
-                    viewPager.setPageFixed(!viewPager.getPageFixed());
-                }
-                catch(Exception e){
-                    Log.d("onStart","Error");
-                }
+                Activity activity = getActivity();
+                assert activity != null;
+                FixableViewPager viewPager = activity.findViewById(R.id.view_pager);
+                viewPager.setPageFixed(!viewPager.getPageFixed());
+                isGameOn = true;
 
                 /* Switch to gamePlayFragment */
                 assert getFragmentManager() != null;
                 FragmentTransaction trans = getFragmentManager().beginTransaction();
                 trans.replace(R.id.game_fragment, new GamePlayFragment());
                 trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                trans.addToBackStack(null);
+                //trans.addToBackStack(null);
 
                 trans.commit();
                 //((MainActivity)getActivity()).replaceFragment(GamePlayFragment.newInstance());
             }
         });
+    }
+
+    public boolean getGameOn(){
+        return isGameOn;
+    }
+
+    public void setGameOn(boolean b){
+        isGameOn = b;
     }
 }
