@@ -79,8 +79,6 @@ public class GamePlayFragment extends Fragment{
         return view;
     }
 
-<<<<<<< HEAD
-=======
     @Override
     public void onStart() {
         super.onStart();
@@ -127,7 +125,6 @@ public class GamePlayFragment extends Fragment{
         }
 
     }
->>>>>>> 016f15c80767bf24492315caeab694e363ac4f51
 
     //보드판에 랜덤 배치하기
     public void initboard(){
