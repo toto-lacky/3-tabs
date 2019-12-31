@@ -59,7 +59,6 @@ public class GamePlayFragment extends Fragment{
         final GestureDetector gd = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener(){
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
-                int moveimg;
                 int tmp, emptyindex;
 
                 //일시정지 상태에서는 움직이지 않도록 함
@@ -74,8 +73,6 @@ public class GamePlayFragment extends Fragment{
                     if(!leftable()) return false;
                     emptyindex = emptyindex();
                     moveimg(emptyindex+1,1);
-                    //moveimg = board[emptyindex/10][emptyindex%10+1];
-                    //imgblock[moveimg].scrollBy(BLOCK_SIZE,0);
                     tmp = board[emptyindex/10][emptyindex%10+1];
                     board[emptyindex/10][emptyindex%10+1] = 0;
                     board[emptyindex/10][emptyindex%10] = tmp;
@@ -86,8 +83,6 @@ public class GamePlayFragment extends Fragment{
                     if(!rightable()) return false;
                     emptyindex = emptyindex();
                     moveimg(emptyindex-1,2);
-                    //moveimg = board[emptyindex/10][emptyindex%10-1];
-                    //imgblock[moveimg].scrollBy(-BLOCK_SIZE,0);
                     tmp = board[emptyindex/10][emptyindex%10-1];
                     board[emptyindex/10][emptyindex%10-1] = 0;
                     board[emptyindex/10][emptyindex%10] = tmp;
@@ -98,8 +93,6 @@ public class GamePlayFragment extends Fragment{
                     if(!upable()) return false;
                     emptyindex = emptyindex();
                     moveimg(emptyindex+10,3);
-                    //moveimg = board[emptyindex/10+1][emptyindex%10];
-                    //imgblock[moveimg].scrollBy(0,BLOCK_SIZE);
                     tmp = board[emptyindex/10+1][emptyindex%10];
                     board[emptyindex/10+1][emptyindex%10] = 0;
                     board[emptyindex/10][emptyindex%10] = tmp;
@@ -110,8 +103,6 @@ public class GamePlayFragment extends Fragment{
                     if(!downable()) return false;
                     emptyindex = emptyindex();
                     moveimg(emptyindex-10,4);
-                    //moveimg = board[emptyindex/10-1][emptyindex%10];
-                    //imgblock[moveimg].scrollBy(0,-BLOCK_SIZE);
                     tmp = board[emptyindex/10-1][emptyindex%10];
                     board[emptyindex/10-1][emptyindex%10] = 0;
                     board[emptyindex/10][emptyindex%10] = tmp;
@@ -227,10 +218,6 @@ public class GamePlayFragment extends Fragment{
 
         //블럭 크기 및 위치 초기화
         RelativeLayout.LayoutParams block_params;
-        //initboard();
-
-        for(int i=0; i<4; i++)
-            Log.d("Board"," "+board[i][0]+" "+board[i][1]+" "+board[i][2]+" "+board[i][3]);
 
         for(int i = 0; i < 16; i++){
             block_params = new RelativeLayout.LayoutParams(blockSize, blockSize);
@@ -240,13 +227,8 @@ public class GamePlayFragment extends Fragment{
 
             int index = board[i/4][i%4];
             String blockID = "block" + index;
-            if(index == 0)
-                continue;
-
             int resID = getResources().getIdentifier(blockID, "id", getContext().getPackageName());
-            Log.d("FindBug","blockID: "+blockID+" resID: "+resID);
             ImageView block = view.findViewById(resID);
-            Log.d("FindBug","block: "+block);
             block.setLayoutParams(block_params);
         }
     }
@@ -273,7 +255,6 @@ public class GamePlayFragment extends Fragment{
         }
         //재배치
         while(!clearable(board_)){
-
             for(i = 14 ; i>1; i--){
                 index_r = r.nextInt(i);
                 tmp = board_[i];
