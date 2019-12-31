@@ -20,8 +20,6 @@ import com.example.project1_java.R;
  */
 public class GameFragment extends Fragment {
 
-    private boolean isGameOn = false;
-
     static GameFragment newInstance() {
         return new GameFragment();
     }
@@ -49,26 +47,19 @@ public class GameFragment extends Fragment {
                 assert activity != null;
                 FixableViewPager viewPager = activity.findViewById(R.id.view_pager);
                 viewPager.setPageFixed(!viewPager.getPageFixed());
-                isGameOn = true;
 
                 /* Switch to gamePlayFragment */
                 assert getFragmentManager() != null;
                 FragmentTransaction trans = getFragmentManager().beginTransaction();
-                trans.replace(R.id.game_fragment, new GamePlayFragment());
+                GamePlayFragment new_gameplay_fragment = new GamePlayFragment();
+                trans.replace(R.id.game_fragment, new_gameplay_fragment);
                 trans.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 //trans.addToBackStack(null);
-
                 trans.commit();
-                //((MainActivity)getActivity()).replaceFragment(GamePlayFragment.newInstance());
+
+                SectionsPagerAdapter adapter = viewPager.getAdapter();
+                adapter.replaceFragment(2,new_gameplay_fragment);
             }
         });
-    }
-
-    public boolean getGameOn(){
-        return isGameOn;
-    }
-
-    public void setGameOn(boolean b){
-        isGameOn = b;
     }
 }

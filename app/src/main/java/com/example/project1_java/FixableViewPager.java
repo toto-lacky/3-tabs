@@ -6,7 +6,10 @@ import android.view.MotionEvent;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import com.example.project1_java.ui.main.SectionsPagerAdapter;
 
 public class FixableViewPager extends ViewPager {
 
@@ -31,6 +34,17 @@ public class FixableViewPager extends ViewPager {
             return false;
         }
         return super.onInterceptTouchEvent(event);
+    }
+
+    //@Override
+    public void setAdapter(@Nullable SectionsPagerAdapter adapter) {
+        super.setAdapter(adapter);
+    }
+
+    @Nullable
+    @Override
+    public SectionsPagerAdapter getAdapter() {
+        return (SectionsPagerAdapter) super.getAdapter();
     }
 
     public void setPageFixed(boolean fix) {

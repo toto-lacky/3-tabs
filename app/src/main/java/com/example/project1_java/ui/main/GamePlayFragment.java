@@ -28,11 +28,14 @@ public class GamePlayFragment extends Fragment{
     private static final int SWIPE_MAX_OFF_PATH = 800;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
-    private ImageView imgblock[] = new ImageView[16];
+    private ImageView[] imgblock = new ImageView[16];
 
     private static int BLOCK_SIZE;
 
-    private int board[][] = new int[4][4];  //보드판 배치 배열
+    private int[][] board = new int[4][4];  //보드판 배치 배열
+
+    //현재 게임이 실행중인지 판단
+    private boolean isPaused = false;
 
     static GamePlayFragment newInstance() {
         return new GamePlayFragment();
@@ -119,6 +122,28 @@ public class GamePlayFragment extends Fragment{
                 return true;
             }
         });
+
+        view.findViewById(R.id.menu_button).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                pauseGame();
+            }
+        });
+
+        view.findViewById(R.id.resume_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resumeGame();
+            }
+        });
+
+        view.findViewById(R.id.restart_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                restartGame();
+            }
+        });
+
         return view;
     }
 
@@ -136,7 +161,7 @@ public class GamePlayFragment extends Fragment{
         int width = parent.getWidth() - 20;
         int height = parent.getHeight();
         int blockSize = width / 4;
-        BLOCK_SIZE = blockSize;
+        BLOCK_SIZE = blockSize/2;
         int boardSize = 4 * blockSize;
 
         //로고 크기 및 위치 초기화
@@ -267,6 +292,7 @@ public class GamePlayFragment extends Fragment{
             }
         }
     }
+
     //섞인 배치를 풀 수 있는지
     public boolean clearable(int[] board){
         int ic;
@@ -327,5 +353,36 @@ public class GamePlayFragment extends Fragment{
             }
         }
         return true;
+    }
+
+    //게임 일시정지 여부 확인
+    public boolean getPaused(){
+        return isPaused;
+    }
+    public void setPaused(boolean b){
+        isPaused = b;
+    }
+
+    //게임 일시정지시키기
+    public void pauseGame(){
+        View pause_page = getView().findViewById(R.id.pause_screen);
+        pause_page.setVisibility(View.VISIBLE);
+        pause_page.setAlpha(1);
+        //TODO 게임 내 움직임 비활성화시키기
+    }
+
+    //게임 resume시키기
+    public void resumeGame(){
+        View pause_page = getView().findViewById(R.id.pause_screen);
+        pause_page.setVisibility(View.INVISIBLE);
+        pause_page.setAlpha(0);
+        //TODO 게임 내 움직임 다시 활성화시키기
+    }
+
+    //게임 restart시키기
+    public void restartGame(){
+        View pause_page = getView().findViewById(R.id.pause_screen);
+        pause_page.setVisibility(View.INVISIBLE);
+        pause_page.setAlpha(0);
     }
 }
