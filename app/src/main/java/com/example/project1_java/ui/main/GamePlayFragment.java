@@ -482,7 +482,10 @@ public class GamePlayFragment extends Fragment{
         }
     }
 
+    /*---------------------*/
     /* Debugging Functions */
+    /*---------------------*/
+
     public void printBoard(){
         Log.d("PrintBoard","PrintBoard called!");
         for (int i=0; i<4; i++){

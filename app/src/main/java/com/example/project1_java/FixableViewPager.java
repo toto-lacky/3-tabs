@@ -35,12 +35,12 @@ public class FixableViewPager extends ViewPager {
         }
         return super.onInterceptTouchEvent(event);
     }
-
+/*
     //@Override
     public void setAdapter(@Nullable SectionsPagerAdapter adapter) {
         super.setAdapter(adapter);
     }
-
+*/
     @Nullable
     @Override
     public SectionsPagerAdapter getAdapter() {
