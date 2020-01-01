@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -47,6 +48,8 @@ public class GamePlayFragment extends Fragment{
     private int[][] board = new int[4][4];  //보드판 배치 배열
 
     private boolean isPaused = false;  //현재 게임이 실행중인지 판단
+    private MediaPlayer moveSound;
+    private MediaPlayer hooraySound;
 
     static GamePlayFragment newInstance() {
         return new GamePlayFragment();
@@ -59,6 +62,9 @@ public class GamePlayFragment extends Fragment{
         View view = inflater.inflate(R.layout.fragment_game_play, container, false);
         RelativeLayout rl = view.findViewById(R.id.relativeLayout);
 
+        moveSound = MediaPlayer.create(getContext(), R.raw.move_sound);
+        hooraySound = MediaPlayer.create(getContext(), R.raw.hooray);
+
         for(int i = 1; i<16; i++){
             String blockID = "block" + i;
             int resID = getResources().getIdentifier(blockID, "id", getContext().getPackageName());
@@ -69,6 +75,7 @@ public class GamePlayFragment extends Fragment{
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
                 int tmp, emptyindex;
+                boolean moved = false;
 
                 //일시정지 상태에서는 움직이지 않도록 함
                 if(isPaused)
@@ -76,6 +83,12 @@ public class GamePlayFragment extends Fragment{
 
                 if(Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH)
                     return false;
+
+                if((Math.abs(e1.getX() - e2.getX()) > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY)
+                        ||(Math.abs(e1.getY() - e2.getY()) > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY))
+                    moved = true;
+
+                if(moved) moveSound.start();
 
                 //right to left
                 if(e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY){
@@ -85,7 +98,7 @@ public class GamePlayFragment extends Fragment{
                     tmp = board[emptyindex/10][emptyindex%10+1];
                     board[emptyindex/10][emptyindex%10+1] = 0;
                     board[emptyindex/10][emptyindex%10] = tmp;
-                    if(check_clear()) Toast.makeText(getContext(), "CLEAR", Toast.LENGTH_SHORT).show();
+                    if(check_clear()) clear();
                 }
                 //left to right
                 else if(e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY){
@@ -96,7 +109,7 @@ public class GamePlayFragment extends Fragment{
                     tmp = board[emptyindex/10][emptyindex%10-1];
                     board[emptyindex/10][emptyindex%10-1] = 0;
                     board[emptyindex/10][emptyindex%10] = tmp;
-                    if(check_clear()) Toast.makeText(getContext(), "CLEAR", Toast.LENGTH_SHORT).show();
+                    if(check_clear()) clear();
                 }
                 //down to up
                 else if(e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY){
@@ -106,7 +119,7 @@ public class GamePlayFragment extends Fragment{
                     tmp = board[emptyindex/10+1][emptyindex%10];
                     board[emptyindex/10+1][emptyindex%10] = 0;
                     board[emptyindex/10][emptyindex%10] = tmp;
-                    if(check_clear()) Toast.makeText(getContext(), "CLEAR", Toast.LENGTH_SHORT).show();
+                    if(check_clear()) clear();
                 }
                 //up to down
                 else if(e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY){
@@ -116,8 +129,9 @@ public class GamePlayFragment extends Fragment{
                     tmp = board[emptyindex/10-1][emptyindex%10];
                     board[emptyindex/10-1][emptyindex%10] = 0;
                     board[emptyindex/10][emptyindex%10] = tmp;
-                    if(check_clear()) Toast.makeText(getContext(), "CLEAR", Toast.LENGTH_SHORT).show();
+                    if(check_clear()) clear();
                 }
+
                 return super.onFling(e1, e2, velocityX, velocityY);
             }
         });
@@ -473,6 +487,12 @@ public class GamePlayFragment extends Fragment{
         assert activity != null;
         FixableViewPager viewPager = activity.findViewById(R.id.view_pager);
         viewPager.setPageFixed(swipe_fix);
+    }
+
+    //퍼즐을 풀었을 때 실행하는 함수
+    public void clear(){
+        Toast.makeText(getContext(), "CLEAR", Toast.LENGTH_SHORT).show();
+        hooraySound.start();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data){
