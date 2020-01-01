@@ -41,6 +41,10 @@ The user can see previous/next image by swiping left or right(implemented using 
 
 ## Tab 3: 15-Puzzle
 ![game_1](./readme_images/game_1.png)
+![game_1](./readme_images/game_1.png)
+![game_1](./readme_images/game_1.png)
+![game_1](./readme_images/game_1.png)
+
 ![game_2](./readme_images/game_2.png)
 ![game_3](./readme_images/game_3.png)
 ![game_4](./readme_images/game_4.png)
