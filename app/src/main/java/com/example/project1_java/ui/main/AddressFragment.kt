@@ -2,6 +2,8 @@ package com.example.project1_java.ui.main
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
@@ -112,16 +114,33 @@ class AddressFragment : Fragment() {
 
     /* prof에서 읽은 번호로 전화를 거는 함수 */
     fun call(prof: Addr_Profile){
-        val callIntent : Intent = Intent(Intent.ACTION_CALL)
-        callIntent.setData(Uri.parse("tel:${prof.addr}"))
-        val perm = Array(1) {Manifest.permission.CALL_PHONE}
 
-        if (ContextCompat.checkSelfPermission(context!!,Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-            startActivity(callIntent)
-        } else {
-            ActivityCompat.requestPermissions(context as Activity, perm, CALL_REQUEST_CODE)
+        // Set dialogue
+        val builder: AlertDialog.Builder? = activity?.let {
+            AlertDialog.Builder(it)
         }
-        //Log.d("phone number",prof.addr)
+        builder?.setMessage("call "+prof.name+"?")
+        builder?.apply {
+            setPositiveButton(R.string.ok
+            ) { _, _ ->
+                // User clicked OK button. Call that person.
+                val callIntent : Intent = Intent(Intent.ACTION_CALL)
+                callIntent.setData(Uri.parse("tel:${prof.addr}"))
+                val perm = Array(1) {Manifest.permission.CALL_PHONE}
+
+                if (ContextCompat.checkSelfPermission(context!!,Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                    startActivity(callIntent)
+                } else {
+                    ActivityCompat.requestPermissions(context as Activity, perm, CALL_REQUEST_CODE)
+                }
+            }
+            setNegativeButton(R.string.cancel
+            ) { _, _ ->
+                // User cancelled the dialog
+            }
+        }
+        builder?.create()?.show()
+
     }
 
 }

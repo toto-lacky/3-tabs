@@ -491,7 +491,7 @@ public class GamePlayFragment extends Fragment{
 
     //퍼즐을 풀었을 때 실행하는 함수
     public void clear(){
-        Toast.makeText(getContext(), "CLEAR", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "HOORAY!", Toast.LENGTH_SHORT).show();
         hooraySound.start();
     }
 
