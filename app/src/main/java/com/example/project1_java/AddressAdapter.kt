@@ -64,7 +64,7 @@ class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?
         val uri : Uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id)
         val input : InputStream? = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri)
         if (input != null)
-            return resizingBitmap(BitmapFactory.decodeStream(input))
+            return Util.resizingBitmap(BitmapFactory.decodeStream(input))
         var photoBytes : ByteArray? = null
         val photoUri : Uri = ContentUris.withAppendedId(ContactsContract.Data.CONTENT_URI, photo_id)
         val c : Cursor? = cr.query(photoUri, arrayOf(ContactsContract.CommonDataKinds.Photo.PHOTO),null,null,null)
@@ -74,30 +74,7 @@ class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?
         c?.close()
 
         if (photoBytes != null)
-            return resizingBitmap(BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.size))
+            return Util.resizingBitmap(BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.size))
         return null
-    }
-
-    /* 이미지 파일을 resizing하는 메소드 */
-    fun resizingBitmap(oBitmap: Bitmap) : Bitmap? {
-        if (oBitmap == null)
-            return null
-        var width: Int = oBitmap.getWidth()
-        var height: Int = oBitmap.getHeight()
-        val resizing_size = 120
-        var rBitmap : Bitmap? = null
-        if (width > resizing_size) {
-            val mWidth : Int = width / 100
-            val fScale : Int = resizing_size / mWidth
-            width *= (fScale / 100)
-            height *= (fScale / 100)
-        } else if (height > resizing_size) {
-            val mHeight: Int = height / 100
-            val fScale : Int = resizing_size / mHeight
-            width *= (fScale / 100)
-            height *= (fScale / 100)
-        }
-        rBitmap = Bitmap.createScaledBitmap(oBitmap, width, height, true)
-        return rBitmap
     }
 }
