@@ -6,7 +6,6 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.project1_java.Addr_Profile
 import com.example.project1_java.AddressAdapter
-import com.example.project1_java.MainActivity
+import com.example.project1_java.LoadingActivity
 import com.example.project1_java.R
 import kotlinx.android.synthetic.main.fragment_address.*
 
@@ -114,7 +113,7 @@ class AddressFragment : Fragment() {
         val callIntent : Intent = Intent(Intent.ACTION_CALL)
         callIntent.setData(Uri.parse("tel:${prof.addr}"))
         val perm = Array(1) {Manifest.permission.CALL_PHONE}
-        MainActivity.setPermission(requireContext(), perm)
+        LoadingActivity.setPermission(requireContext(), perm)
         startActivity(callIntent)
         //Log.d("phone number",prof.addr)
     }
