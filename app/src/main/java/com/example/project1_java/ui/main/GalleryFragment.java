@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -20,6 +21,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.project1_java.ImageActivity;
 import com.example.project1_java.R;
+import com.example.project1_java.Util;
 
 public class GalleryFragment extends Fragment {
 
@@ -66,8 +68,6 @@ public class GalleryFragment extends Fragment {
         }
 
         imageview[0].setImageURI(Uri.parse(sf.getString("1234","")));
-        Log.d("error_log",""+Uri.parse(sf.getString("1234","")));
-        Log.d("error log",sf.getString("1234",""));
 
          */
         return root;
@@ -103,9 +103,15 @@ public class GalleryFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         if (data != null && data.getData() != null){
             uris[requestCode] = data.getData();
-            imageview[requestCode].setImageURI(uris[requestCode]);
             uris_s[requestCode] = uris[requestCode].toString();
-            Log.d("error log",uris_s[requestCode]);
+            imageview[requestCode].setImageURI(uris[requestCode]);
+            try {
+                Bitmap bm = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uris[requestCode]);
+                bm = Util.squareBitmap(bm);
+                imageview[requestCode].setImageBitmap(bm);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 /*
@@ -123,9 +129,6 @@ public class GalleryFragment extends Fragment {
             editor.putString(uriID, uris_s[i]);
         }
 
-        if(uris_s[0] != null) {
-            Log.d("error log", uris_s[0]);
-        }
         editor.commit();
     }
 
