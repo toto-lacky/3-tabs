@@ -90,6 +90,7 @@ public class GamePlayFragment extends Fragment{
                 else if(e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY){
                     if(!rightable()) return false;
                     emptyindex = emptyindex();
+                    Log.d("DEBUG","emptyIndex: "+emptyindex);
                     moveimg(emptyindex-1,2);
                     tmp = board[emptyindex/10][emptyindex%10-1];
                     board[emptyindex/10][emptyindex%10-1] = 0;
@@ -178,13 +179,50 @@ public class GamePlayFragment extends Fragment{
     //게임 초기화
     private void initGame(Bitmap img){
         initboard();
+        //setBoardSolved();
         initGraphic();
         initImage(img);
         initSettings();
         printBoard();
     }
 
-    //여러 가지 게임 setting 초기화
+    //게임 이미지 설정
+    public void initImage(Bitmap img){
+        if(img != null) {
+            gameImage = Util.resizingBitmap(img,1000);
+        }
+
+        Bitmap[][] tiles = new Bitmap[4][4];
+
+        if(gameImage != null){
+            tiles = Util.splitBitmap(Util.squareBitmap(gameImage),4,4);
+        } else {
+            for(int i=1; i<16; i++){
+                String imgID = "block_" + i;
+                int resID = getResources().getIdentifier(imgID, "drawable", getContext().getPackageName());
+                tiles[(i-1)%4][(i-1)/4] = BitmapFactory.decodeResource(getContext().getResources(),resID);
+            }
+        }
+
+        /*
+        for (int i=0; i<16; i++) {
+            int index = board[i/4][i%4];
+            ImageView block = imgBlock[index];
+            if(block != null)
+                block.setImageBitmap(tiles[i/4][i%4]);
+        }
+        */
+        for (int i=1; i<16; i++) {
+            String imgViewID = "block" + i;
+            int resID = getResources().getIdentifier(imgViewID, "id", getContext().getPackageName());
+            ImageView block = getView().findViewById(resID);
+            block.setImageBitmap(tiles[(i-1)%4][(i-1)/4]);
+
+        }
+
+    }
+
+    //여러 가지 게임 setting/변수 초기화
     private void initSettings(){
         View pause_page = getView().findViewById(R.id.pause_screen);
         pause_page.setVisibility(View.INVISIBLE);
@@ -421,42 +459,6 @@ public class GamePlayFragment extends Fragment{
         initGame(null);
     }
 
-    //게임 이미지 설정
-    public void initImage(Bitmap img){
-        if(img != null) {
-            gameImage = Util.resizingBitmap(img,1000);
-        }
-
-        Bitmap[][] tiles = new Bitmap[4][4];
-
-        if(gameImage != null){
-            tiles = Util.splitBitmap(Util.squareBitmap(gameImage),4,4);
-        } else {
-            for(int i=1; i<16; i++){
-                String imgID = "block_" + i;
-                int resID = getResources().getIdentifier(imgID, "drawable", getContext().getPackageName());
-                tiles[(i-1)/4][(i-1)%4] = BitmapFactory.decodeResource(getContext().getResources(),resID);
-            }
-        }
-
-        /*
-        for (int i=0; i<16; i++) {
-            int index = board[i/4][i%4];
-            ImageView block = imgBlock[index];
-            if(block != null)
-                block.setImageBitmap(tiles[i/4][i%4]);
-        }
-        */
-        for (int i=1; i<16; i++) {
-            String imgViewID = "block" + i;
-            int resID = getResources().getIdentifier(imgViewID, "id", getContext().getPackageName());
-            ImageView block = getView().findViewById(resID);
-            block.setImageBitmap(tiles[(i-1)/4][(i-1)%4]);
-
-        }
-
-    }
-
     //swipe를 enable할지 결정하는 함수
     public void fix(boolean swipe_fix){
         Activity activity = getActivity();
@@ -486,5 +488,11 @@ public class GamePlayFragment extends Fragment{
         for (int i=0; i<4; i++){
             Log.d("PrintBoard",""+board[i][0]+" "+board[i][1]+" "+board[i][2]+" "+board[i][3]);
         }
+    }
+
+    public void setBoardSolved(){
+        for(int i=0; i<16; i++)
+            board[i/4][i%4] = i+1;
+        board[3][3] = 0;
     }
 }
