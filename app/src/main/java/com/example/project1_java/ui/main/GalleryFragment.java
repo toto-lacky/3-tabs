@@ -23,6 +23,7 @@ public class GalleryFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
     private ImageView imageview[] = new ImageView[24];
     private Uri uris[] = new Uri[24];
+    private String uris_s[] = new String[24];
 
     public static GalleryFragment newInstance(int index) {
         GalleryFragment fragment = new GalleryFragment();
@@ -59,10 +60,9 @@ public class GalleryFragment extends Fragment {
             this.index = index;
         }
         public void onClick(View v){
-            if(uris[index] == null) return;
-
             Intent intent = new Intent(getContext(), ImageActivity.class);
-            intent.putExtra("uri",uris[index].toString());
+            intent.putExtra("uri",uris_s);
+            intent.putExtra("current",index);
             startActivity(intent);
         }
     }
@@ -85,6 +85,7 @@ public class GalleryFragment extends Fragment {
         if (data != null && data.getData() != null){
             uris[requestCode] = data.getData();
             imageview[requestCode].setImageURI(uris[requestCode]);
+            uris_s[requestCode] = uris[requestCode].toString();
         }
     }
 }
