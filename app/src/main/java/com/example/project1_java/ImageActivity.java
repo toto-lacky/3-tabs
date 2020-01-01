@@ -10,55 +10,28 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.viewpager.widget.ViewPager;
+
 public class ImageActivity extends Activity {
 
-    private int currentIndex = 0;
-    private String uri_s[];
+    private static int currentIndex = 0;
+    private static String uri_s[];
+
+    private ViewPager viewPager;
+    private GalleryViewPagerAdapter pagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.oneimage);
-        final ImageView imageView = findViewById(R.id.imageView);
-        LinearLayout ll = findViewById(R.id.onell);
+        setContentView(R.layout.gallery_viewpager);
 
         Intent receivedIntent = getIntent();
         uri_s = receivedIntent.getExtras().getStringArray("uri");
         currentIndex = receivedIntent.getExtras().getInt("current");
 
-        setImage(imageView, currentIndex);
-
-        final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener(){
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
-                if(Math.abs(e1.getY() - e2.getY()) > 800)
-                    return false;
-                if(e1.getX() - e2.getX() > 120 && Math.abs(velocityX) > 200){
-                    if(currentIndex > 22) return false;
-                    currentIndex++;
-                    setImage(imageView, currentIndex);
-                }
-                else if(e2.getX() - e1.getX() > 120 && Math.abs(velocityX) > 200){
-                    if(currentIndex < 1) return false;
-                    currentIndex--;
-                    setImage(imageView, currentIndex);
-                }
-                return super.onFling(e1, e2, velocityX, velocityY);
-            }
-        });
-
-        ll.setOnTouchListener(new View.OnTouchListener(){
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent){
-                gestureDetector.onTouchEvent(motionEvent);
-                return true;
-            }
-        });
-    }
-    private void setImage(ImageView imageView, int index){
-        if(uri_s[index] == null) imageView.setImageResource(R.drawable.ic_image);
-        else {
-            imageView.setImageURI(Uri.parse(uri_s[index]));
-        }
+        viewPager = findViewById(R.id.galleryViewPager);
+        pagerAdapter = new GalleryViewPagerAdapter(this, uri_s);
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.setCurrentItem(currentIndex);
     }
 }
