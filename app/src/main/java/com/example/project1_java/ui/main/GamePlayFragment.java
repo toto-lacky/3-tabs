@@ -179,7 +179,7 @@ public class GamePlayFragment extends Fragment{
     //게임 초기화
     private void initGame(Bitmap img){
         initboard();
-        //setBoardSolved();
+        //setBoardAlmostSolved();
         initGraphic();
         initImage(img);
         initSettings();
@@ -493,6 +493,15 @@ public class GamePlayFragment extends Fragment{
     public void setBoardSolved(){
         for(int i=0; i<16; i++)
             board[i/4][i%4] = i+1;
+        board[3][3] = 0;
+    }
+
+    public void setBoardAlmostSolved(){
+        for(int i=0; i<16; i++)
+            board[i/4][i%4] = i+1;
+        board[2][2] = 12;
+        board[2][3] = 15;
+        board[3][2] = 11;
         board[3][3] = 0;
     }
 }
