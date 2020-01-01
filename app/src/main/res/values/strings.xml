@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Project1</string>
+    <string name="app_name">3 Tabs</string>
     <string name="tab_text_1">Address</string>
     <string name="tab_text_2">Gallery</string>
     <string name="tab_text_3">\Game</string>

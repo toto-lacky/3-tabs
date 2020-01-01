@@ -93,17 +93,15 @@ class AddressFragment : Fragment() {
         val cursor: Cursor? = requireContext().contentResolver.query(uri, projection, null, selectionArgs, sortOrder)
         val hashlist =
             LinkedHashSet<Addr_Profile>()
-        if (cursor?.moveToFirst() == true) {
-            do {
-                val name = cursor.getString(0)
-                val photo_id = cursor.getLong(2)
-                val addr = cursor.getString(1)
-                val person_id = cursor.getLong(3)
-                val newProfile = Addr_Profile(photo_id, person_id, addr, name)
-                hashlist.add(newProfile)
-                //Log.d("dalfkj", "ldakfj" + cursor.count)
-            } while (cursor.moveToNext())
-        }
+        if (cursor?.moveToFirst() == true) do {
+            val name = cursor.getString(0)
+            val photo_id = cursor.getLong(2)
+            val addr = cursor.getString(1)
+            val person_id = cursor.getLong(3)
+            val newProfile = Addr_Profile(photo_id, person_id, addr, name)
+            hashlist.add(newProfile)
+            //Log.d("dalfkj", "ldakfj" + cursor.count)
+        } while (cursor.moveToNext())
         val contactItems: ArrayList<Addr_Profile?> = ArrayList(hashlist)
         for (i in contactItems.indices) {
             contactItems[i]?.id = i
