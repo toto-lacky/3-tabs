@@ -23,8 +23,6 @@
         android:src="@drawable/circle_mask"
         android:layout_marginEnd="6dip"/>
 
-
-
     <TextView
         android:id="@+id/elem_addr"
         android:layout_width="fill_parent"

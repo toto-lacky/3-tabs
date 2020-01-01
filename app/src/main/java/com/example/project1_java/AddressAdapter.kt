@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.ContactsContract
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,8 +48,6 @@ class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?
                 val photoid = prof.photoid
                 val personid = prof.personId
                 Photo?.setImageBitmap(loadContactPhoto(context.contentResolver, personid, photoid))
-                Log.d("Called Image","personid: "+personid+" photoid: "+photoid+" name: ${prof.name}")
-                //Photo?.setImageResource(resourceId.toInt())
             } else {
                 Photo?.setImageResource(R.drawable.def_icon)
             }
@@ -67,9 +64,7 @@ class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?
         val uri : Uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id)
         val input : InputStream? = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri)
         if (input != null)
-            return resizingBitmap(BitmapFactory.decodeStream(input))
-        else
-            Log.d("PHOTO","first try failed to load photo")
+            return Util.resizingBitmap(BitmapFactory.decodeStream(input),120)
         var photoBytes : ByteArray? = null
         val photoUri : Uri = ContentUris.withAppendedId(ContactsContract.Data.CONTENT_URI, photo_id)
         val c : Cursor? = cr.query(photoUri, arrayOf(ContactsContract.CommonDataKinds.Photo.PHOTO),null,null,null)
@@ -79,33 +74,7 @@ class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?
         c?.close()
 
         if (photoBytes != null)
-            return resizingBitmap(BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.size))
-        else
-            Log.d("PHOTO", "second try also failed")
+            return Util.resizingBitmap(BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.size),120)
         return null
-    }
-
-    /* 이미지 파일을 resizing하는 메소드 */
-    fun resizingBitmap(oBitmap: Bitmap) : Bitmap? {
-        if (oBitmap == null)
-            return null
-        var width: Int = oBitmap.getWidth()
-        var height: Int = oBitmap.getHeight()
-        val resizing_size = 120
-        var rBitmap : Bitmap? = null
-        if (width > resizing_size) {
-            val mWidth : Int = width / 100
-            val fScale : Int = resizing_size / mWidth
-            width *= (fScale / 100)
-            height *= (fScale / 100)
-        } else if (height > resizing_size) {
-            val mHeight: Int = height / 100
-            val fScale : Int = resizing_size / mHeight
-            width *= (fScale / 100)
-            height *= (fScale / 100)
-        }
-        Log.d("BitmapLog","rBitmap : " + width + ", " + height)
-        rBitmap = Bitmap.createScaledBitmap(oBitmap, width, height, true)
-        return rBitmap
     }
 }

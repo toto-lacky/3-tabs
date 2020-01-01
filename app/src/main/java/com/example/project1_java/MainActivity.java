@@ -5,17 +5,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.project1_java.ui.main.GameFragment;
 import com.example.project1_java.ui.main.GamePlayFragment;
 import com.example.project1_java.ui.main.SectionsPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
@@ -44,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.d("Page Change","changed to position: "+position+" class: "+sectionsPagerAdapter.getRegisteredFragment(position).getClass());
+                //Log.d("Page Change","changed to position: "+position+" class: "+sectionsPagerAdapter.getRegisteredFragment(position).getClass());
                 Fragment frag = sectionsPagerAdapter.getRegisteredFragment(2);
                 if(frag.getClass() != GamePlayFragment.class)
                     return;
@@ -73,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
 
         /* 현재 권한이 있는지 확인, 없으면 ReqPerm에 추가 */
         for (String perm : permissions) {
-            if(ContextCompat.checkSelfPermission(context, perm) == PackageManager.PERMISSION_GRANTED)
-                Log.d("Permission","Already have permission: " + perm);
+            if(ContextCompat.checkSelfPermission(context, perm) == PackageManager.PERMISSION_GRANTED);
+                //Log.d("Permission","Already have permission: " + perm);
             else
                 ReqPerm.add(perm);
         }
@@ -86,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         /* 권한을 받을 때까지 기다리기 */
         for (String perm : permissions) {
             while (ContextCompat.checkSelfPermission(context, perm) != PackageManager.PERMISSION_GRANTED) {
-                Log.d("Permission","waiting for permission " + perm);
+                //Log.d("Permission","waiting for permission " + perm);
             }
         }
     }

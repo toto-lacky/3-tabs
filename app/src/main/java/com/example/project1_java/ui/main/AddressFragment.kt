@@ -98,7 +98,7 @@ class AddressFragment : Fragment() {
                 val person_id = cursor.getLong(3)
                 val newProfile = Addr_Profile(photo_id, person_id, addr, name)
                 hashlist.add(newProfile)
-                Log.d("dalfkj", "ldakfj" + cursor.count)
+                //Log.d("dalfkj", "ldakfj" + cursor.count)
             } while (cursor.moveToNext())
         }
         val contactItems: ArrayList<Addr_Profile?> = ArrayList(hashlist)
@@ -116,7 +116,7 @@ class AddressFragment : Fragment() {
         val perm = Array(1) {Manifest.permission.CALL_PHONE}
         MainActivity.setPermission(requireContext(), perm)
         startActivity(callIntent)
-        Log.d("phone number",prof.addr)
+        //Log.d("phone number",prof.addr)
     }
 
     /* 입력받은 데이터로 새 연락처를 만드는 함수 */
