@@ -19,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.project1_java.Addr_Profile
 import com.example.project1_java.AddressAdapter
 import com.example.project1_java.R
@@ -47,7 +48,7 @@ class AddressFragment : Fragment() {
         mRecyclerView.adapter = mAdapter
 
         val lm = LinearLayoutManager(requireContext())
-        mRecyclerView.layoutManager = lm
+        mRecyclerView.layoutManager = lm as RecyclerView.LayoutManager?
         mRecyclerView.setHasFixedSize(true)
     }
 
