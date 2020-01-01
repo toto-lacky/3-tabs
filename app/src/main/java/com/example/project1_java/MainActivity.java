@@ -58,35 +58,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        String[] reqPermissions = {Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE};
-        setPermission(this, reqPermissions);
+//        String[] reqPermissions = {Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE};
+//        setPermission(this, reqPermissions);
     }
 
-    /* 권한 확인 및 요청 함수 */
-    public static void setPermission(Context context, String[] permissions){
-        /* 추가적으로 요청해야 하는 권한들 */
-        ArrayList<String> ReqPerm = new ArrayList<>();
-
-        /* 현재 권한이 있는지 확인, 없으면 ReqPerm에 추가 */
-        for (String perm : permissions) {
-            if(ContextCompat.checkSelfPermission(context, perm) == PackageManager.PERMISSION_GRANTED);
-                //Log.d("Permission","Already have permission: " + perm);
-            else
-                ReqPerm.add(perm);
-        }
-
-        /* 권한 요청 */
-        if(ReqPerm.size() != 0)
-            ActivityCompat.requestPermissions((Activity) context, ReqPerm.toArray(new String[0]),0);
-
-        /* 권한을 받을 때까지 기다리기 */
-        for (String perm : permissions) {
-            while (ContextCompat.checkSelfPermission(context, perm) != PackageManager.PERMISSION_GRANTED) {
-                //Log.d("Permission","waiting for permission " + perm);
-            }
-        }
-    }
-
+//    /* 권한 확인 및 요청 함수 */
+//    public static void setPermission(Context context, String[] permissions){
+//        /* 추가적으로 요청해야 하는 권한들 */
+//        ArrayList<String> ReqPerm = new ArrayList<>();
+//
+//        /* 현재 권한이 있는지 확인, 없으면 ReqPerm에 추가 */
+//        for (String perm : permissions) {
+//            if(ContextCompat.checkSelfPermission(context, perm) == PackageManager.PERMISSION_GRANTED);
+//                //Log.d("Permission","Already have permission: " + perm);
+//            else
+//                ReqPerm.add(perm);
+//        }
+//
+//        /* 권한 요청 */
+//        if(ReqPerm.size() != 0)
+//            ActivityCompat.requestPermissions((Activity) context, ReqPerm.toArray(new String[0]),0);
+//
+//        /* 권한을 받을 때까지 기다리기 */
+//        for (String perm : permissions) {
+//            while (ContextCompat.checkSelfPermission(context, perm) != PackageManager.PERMISSION_GRANTED) {
+//                //Log.d("Permission","waiting for permission " + perm);
+//            }
+//        }
+//    }
+//
 //    @Override
 //    public void onRequestPermissionsResult(int requestCode,
 //                                           String[] permissions, int[] grantResults) {
@@ -104,11 +104,10 @@ public class MainActivity extends AppCompatActivity {
 //        if(ReqPerm.size() > 0)
 //            ActivityCompat.requestPermissions((Activity) getApplicationContext(), ReqPerm.toArray(new String[0]),0);
 //    }
-
-    /*
-    public void replaceFragment(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.container, fragment).commit();
-    }*/
+//
+//    public void replaceFragment(Fragment fragment) {
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.container, fragment).commit();
+//    }
 }
