@@ -1,4 +1,4 @@
-![logo](./readme_images/logo.png)
+![logo](./readme_images/logo.PNG)
   
 # 3-Tabs
 An android app with 3 tabs
