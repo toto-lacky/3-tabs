@@ -270,6 +270,13 @@ public class GamePlayFragment extends Fragment{
         View resume = view.findViewById(R.id.resume_button);
         resume.setLayoutParams(resume_params);
 
+        //Image 버튼 크기 및 위치 초기화
+        RelativeLayout.LayoutParams image_params = new RelativeLayout.LayoutParams(blockSize, blockSize);
+        int imageMargin = (width + 20 - buttonSize - 2 * blockSize) / 4;
+        image_params.setMargins(width + 20 - blockSize - imageMargin,height - blockSize - imageMargin,0,0);
+        View image = view.findViewById(R.id.image_button);
+        image.setLayoutParams(image_params);
+
         //보드 크기 및 위치 초기화
         RelativeLayout.LayoutParams board_params = new RelativeLayout.LayoutParams(boardSize, boardSize);
         board_params.setMargins(10,logoHeight+20,0,0);
