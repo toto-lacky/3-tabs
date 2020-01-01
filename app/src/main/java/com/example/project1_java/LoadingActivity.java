@@ -10,9 +10,6 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import java.util.ArrayList;
 
 public class LoadingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +29,6 @@ public class LoadingActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String[] permissions, int[] grantResults) {
-//        Log.d("ReqPermRes","requestCode = "+requestCode);
-//        Log.d("ReqPermRes","permissions: "+permissions);
-//        Log.d("ReqPermRes","grantResults: "+grantResults);
 
         /* 다시 요청해야 하는 권한들 */
         int cnt = 0;
