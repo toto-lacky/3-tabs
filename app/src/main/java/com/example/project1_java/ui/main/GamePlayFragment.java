@@ -180,7 +180,7 @@ public class GamePlayFragment extends Fragment{
     //게임 초기화
     private void initGame(Bitmap img){
         initboard();
-        //setBoardAlmostSolved();
+        //setBoardSolved();
         initGraphic();
         initImage(img);
         initSettings();
@@ -190,13 +190,13 @@ public class GamePlayFragment extends Fragment{
     //게임 이미지 설정
     public void initImage(Bitmap img){
         if(img != null) {
-            gameImage = Util.resizingBitmap(img,1000);
+            gameImage = Util.resizingBitmap(Util.squareBitmap(img),1000);
         }
 
         Bitmap[][] tiles = new Bitmap[4][4];
 
         if(gameImage != null){
-            tiles = Util.splitBitmap(Util.squareBitmap(gameImage),4,4);
+            tiles = Util.splitBitmap(gameImage,4,4);
         } else {
             for(int i=1; i<16; i++){
                 String imgID = "block_" + i;
