@@ -18,18 +18,17 @@
             android:id="@+id/game_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:src="@drawable/title"/>
+            android:src="@drawable/title" />
 
         <Button
             android:id="@+id/game_start_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_below="@+id/game_title"
-            android:layout_marginTop="0dp"
-            android:background="@drawable/resume_button"/>
+            android:layout_centerVertical="true"
+            android:layout_marginTop="-48dp"
+            android:background="@drawable/resume_button" />
     </RelativeLayout>
 
 </FrameLayout>

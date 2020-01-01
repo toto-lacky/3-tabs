@@ -8,7 +8,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.ContactsContract
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,8 +48,6 @@ class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?
                 val photoid = prof.photoid
                 val personid = prof.personId
                 Photo?.setImageBitmap(loadContactPhoto(context.contentResolver, personid, photoid))
-                Log.d("Called Image","personid: "+personid+" photoid: "+photoid+" name: ${prof.name}")
-                //Photo?.setImageResource(resourceId.toInt())
             } else {
                 Photo?.setImageResource(R.drawable.def_icon)
             }
@@ -68,8 +65,6 @@ class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?
         val input : InputStream? = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri)
         if (input != null)
             return resizingBitmap(BitmapFactory.decodeStream(input))
-        else
-            Log.d("PHOTO","first try failed to load photo")
         var photoBytes : ByteArray? = null
         val photoUri : Uri = ContentUris.withAppendedId(ContactsContract.Data.CONTENT_URI, photo_id)
         val c : Cursor? = cr.query(photoUri, arrayOf(ContactsContract.CommonDataKinds.Photo.PHOTO),null,null,null)
@@ -80,8 +75,6 @@ class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?
 
         if (photoBytes != null)
             return resizingBitmap(BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.size))
-        else
-            Log.d("PHOTO", "second try also failed")
         return null
     }
 
@@ -104,7 +97,6 @@ class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?
             width *= (fScale / 100)
             height *= (fScale / 100)
         }
-        Log.d("BitmapLog","rBitmap : " + width + ", " + height)
         rBitmap = Bitmap.createScaledBitmap(oBitmap, width, height, true)
         return rBitmap
     }
