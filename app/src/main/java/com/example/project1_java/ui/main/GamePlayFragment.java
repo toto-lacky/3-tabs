@@ -1,7 +1,12 @@
 package com.example.project1_java.ui.main;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -17,7 +22,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.project1_java.FixableViewPager;
 import com.example.project1_java.R;
+import com.example.project1_java.Util;
 
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -29,15 +36,16 @@ public class GamePlayFragment extends Fragment{
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 800;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+    private static final int IMAGE_REQUEST_CODE = 10;
 
-    private ImageView[] imgblock = new ImageView[16];
+    private ImageView[] imgBlock = new ImageView[16];
+    private Bitmap gameImage = null;
 
     private static int BLOCK_SIZE;
 
     private int[][] board = new int[4][4];  //보드판 배치 배열
 
-    //현재 게임이 실행중인지 판단
-    private boolean isPaused = false;
+    private boolean isPaused = false;  //현재 게임이 실행중인지 판단
 
     static GamePlayFragment newInstance() {
         return new GamePlayFragment();
@@ -53,7 +61,7 @@ public class GamePlayFragment extends Fragment{
         for(int i = 1; i<16; i++){
             String blockID = "block" + i;
             int resID = getResources().getIdentifier(blockID, "id", getContext().getPackageName());
-            imgblock[i] = view.findViewById(resID);
+            imgBlock[i] = view.findViewById(resID);
         }
 
         final GestureDetector gd = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener(){
@@ -147,20 +155,33 @@ public class GamePlayFragment extends Fragment{
             }
         });
 
+        //image 버튼에 listener 추가
+        view.findViewById(R.id.image_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
+                startActivityForResult(intent, IMAGE_REQUEST_CODE);
+                //Log.d("ButtonClick","restart button clicked");
+            }
+        });
+
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        initGame();
+        initGame(null);
     }
 
     //게임 초기화
-    private void initGame(){
+    private void initGame(Bitmap img){
         initboard();
         initGraphic();
+        initImage(img);
         initSettings();
+        printBoard();
     }
 
     //여러 가지 게임 setting 초기화
@@ -226,7 +247,7 @@ public class GamePlayFragment extends Fragment{
             block_params.setMargins(leftMargin,topMargin,0,0);
 
             int index = board[i/4][i%4];
-            imgblock[index].setLayoutParams(block_params);
+            imgBlock[index].setLayoutParams(block_params);
         }
     }
 
@@ -279,28 +300,28 @@ public class GamePlayFragment extends Fragment{
                 topMargin = (index/10)*BLOCK_SIZE;
                 leftMargin = (index%10-1)*BLOCK_SIZE;
                 block_params.setMargins(leftMargin, topMargin, 0, 0);
-                imgblock[board[index/10][index%10]].setLayoutParams(block_params);
+                imgBlock[board[index/10][index%10]].setLayoutParams(block_params);
                 break;
             //right
             case 2 :
                 topMargin = (index/10)*BLOCK_SIZE;
                 leftMargin = (index%10+1)*BLOCK_SIZE;
                 block_params.setMargins(leftMargin, topMargin, 0, 0);
-                imgblock[board[index/10][index%10]].setLayoutParams(block_params);
+                imgBlock[board[index/10][index%10]].setLayoutParams(block_params);
                 break;
             //up
             case 3 :
                 topMargin = (index/10-1)*BLOCK_SIZE;
                 leftMargin = (index%10)*BLOCK_SIZE;
                 block_params.setMargins(leftMargin, topMargin, 0, 0);
-                imgblock[board[index/10][index%10]].setLayoutParams(block_params);
+                imgBlock[board[index/10][index%10]].setLayoutParams(block_params);
                 break;
             //down
             case 4 :
                 topMargin = (index/10+1)*BLOCK_SIZE;
                 leftMargin = (index%10)*BLOCK_SIZE;
                 block_params.setMargins(leftMargin, topMargin, 0, 0);
-                imgblock[board[index/10][index%10]].setLayoutParams(block_params);
+                imgBlock[board[index/10][index%10]].setLayoutParams(block_params);
                 break;
         }
     }
@@ -397,7 +418,43 @@ public class GamePlayFragment extends Fragment{
 
     //게임 restart시키기
     public void restartGame(){
-        initGame();
+        initGame(null);
+    }
+
+    //게임 이미지 설정
+    public void initImage(Bitmap img){
+        if(img != null) {
+            gameImage = Util.resizingBitmap(img,1000);
+        }
+
+        Bitmap[][] tiles = new Bitmap[4][4];
+
+        if(gameImage != null){
+            tiles = Util.splitBitmap(Util.squareBitmap(gameImage),4,4);
+        } else {
+            for(int i=1; i<16; i++){
+                String imgID = "block_" + i;
+                int resID = getResources().getIdentifier(imgID, "drawable", getContext().getPackageName());
+                tiles[(i-1)/4][(i-1)%4] = BitmapFactory.decodeResource(getContext().getResources(),resID);
+            }
+        }
+
+        /*
+        for (int i=0; i<16; i++) {
+            int index = board[i/4][i%4];
+            ImageView block = imgBlock[index];
+            if(block != null)
+                block.setImageBitmap(tiles[i/4][i%4]);
+        }
+        */
+        for (int i=1; i<16; i++) {
+            String imgViewID = "block" + i;
+            int resID = getResources().getIdentifier(imgViewID, "id", getContext().getPackageName());
+            ImageView block = getView().findViewById(resID);
+            block.setImageBitmap(tiles[(i-1)/4][(i-1)%4]);
+
+        }
+
     }
 
     //swipe를 enable할지 결정하는 함수
@@ -406,5 +463,28 @@ public class GamePlayFragment extends Fragment{
         assert activity != null;
         FixableViewPager viewPager = activity.findViewById(R.id.view_pager);
         viewPager.setPageFixed(swipe_fix);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == IMAGE_REQUEST_CODE){
+            if (data != null && data.getData() != null){
+                Uri imageURI = data.getData();
+                Bitmap image = null;
+                try {
+                    image = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),imageURI);
+                } catch (IOException e) {
+                    Log.d("OnActivityResult","Error! (GamePlayFragment.java)");
+                }
+                initGame(image);
+            }
+        }
+    }
+
+    /* Debugging Functions */
+    public void printBoard(){
+        Log.d("PrintBoard","PrintBoard called!");
+        for (int i=0; i<4; i++){
+            Log.d("PrintBoard",""+board[i][0]+" "+board[i][1]+" "+board[i][2]+" "+board[i][3]);
+        }
     }
 }

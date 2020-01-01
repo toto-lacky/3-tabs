@@ -64,7 +64,7 @@ class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?
         val uri : Uri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, id)
         val input : InputStream? = ContactsContract.Contacts.openContactPhotoInputStream(cr, uri)
         if (input != null)
-            return Util.resizingBitmap(BitmapFactory.decodeStream(input))
+            return Util.resizingBitmap(BitmapFactory.decodeStream(input),120)
         var photoBytes : ByteArray? = null
         val photoUri : Uri = ContentUris.withAppendedId(ContactsContract.Data.CONTENT_URI, photo_id)
         val c : Cursor? = cr.query(photoUri, arrayOf(ContactsContract.CommonDataKinds.Photo.PHOTO),null,null,null)
@@ -74,7 +74,7 @@ class AddressAdapter(val context: Context, val addrList: ArrayList<Addr_Profile?
         c?.close()
 
         if (photoBytes != null)
-            return Util.resizingBitmap(BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.size))
+            return Util.resizingBitmap(BitmapFactory.decodeByteArray(photoBytes, 0, photoBytes.size),120)
         return null
     }
 }
