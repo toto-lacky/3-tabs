@@ -1,19 +1,24 @@
 package com.example.project1_java.ui.main
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.project1_java.Addr_Profile
 import com.example.project1_java.AddressAdapter
-import com.example.project1_java.LoadingActivity
 import com.example.project1_java.R
 import kotlinx.android.synthetic.main.fragment_address.*
 
@@ -24,6 +29,7 @@ import kotlinx.android.synthetic.main.fragment_address.*
 class AddressFragment : Fragment() {
 
     var addrList: ArrayList<Addr_Profile?>? = ArrayList()
+    val CALL_REQUEST_CODE = 11
 
     /* 기기의 연락처 데이터를 불러와서 AddressAdapter에 연결
     *  onCreateView 이후에 실행하기 위해 onStrat로 옮겨옴*/
@@ -47,9 +53,7 @@ class AddressFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_address, container, false)
-
-        return root
+        return inflater.inflate(R.layout.fragment_address, container, false)
     }
 
     companion object {
@@ -113,13 +117,13 @@ class AddressFragment : Fragment() {
         val callIntent : Intent = Intent(Intent.ACTION_CALL)
         callIntent.setData(Uri.parse("tel:${prof.addr}"))
         val perm = Array(1) {Manifest.permission.CALL_PHONE}
-        LoadingActivity.setPermission(requireContext(), perm)
-        startActivity(callIntent)
-        //Log.d("phone number",prof.addr)
-    }
 
-    /* 입력받은 데이터로 새 연락처를 만드는 함수 */
-    fun createAddr(name: String, addr: String){
+        if (ContextCompat.checkSelfPermission(context!!,Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            startActivity(callIntent)
+        } else {
+            ActivityCompat.requestPermissions(context as Activity, perm, CALL_REQUEST_CODE)
+        }
+        //Log.d("phone number",prof.addr)
     }
 
 }
