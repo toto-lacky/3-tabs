@@ -17,6 +17,7 @@ The three tabs each consist of an address book, an image gallery, and a simple 1
 
 ## Tab 1: Address Book
 ![addr_1](./readme_images/addr_1.png)
+![addr_2](./readme_images/addr_2.png)
 
 The first tab is an address book(implemented with RecyclerView).
 On activity start, the application reads names, phone numbers, and profile photos from the device.
@@ -26,7 +27,8 @@ The user can make phone calls by touching the call button.
 Activity start 시점에 기기에서 이름, 전화번호, 프로필 사진을 가져와 표시해주며, 통화 버튼을 누르면 전화를 걸 수도 있습니다.
 
 ## Tab 2: Image Gallery
-(Screenshots)
+![gallery_1](./readme_images/gallery_1.png)
+![gallery_2](./readme_images/gallery_2.png)
 
 The second tab is an image gallery(implemented with TableLayout).
 On long click, the application brings an image from the device.
@@ -38,7 +40,10 @@ The user can see previous/next image by swiping left or right(implemented using 
 확대된 사진을 옆으로 넘겨 이전/다음 사진을 볼 수도 있습니다(ViewPager를 이용해 구현).
 
 ## Tab 3: 15-Puzzle
-(Screenshots)
+![game_1](./readme_images/game_1.png)
+![game_2](./readme_images/game_2.png)
+![game_3](./readme_images/game_3.png)
+![game_4](./readme_images/game_4.png)
 
 The third tab is a 15-puzzle(a.k.a. slide puzzle).
 The goal of the game is to sort the blocks in order.
